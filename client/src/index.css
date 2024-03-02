@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-primary;
+    @apply bg-grey;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-[1400px];
+  }
+}

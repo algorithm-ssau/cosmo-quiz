@@ -1,0 +1,21 @@
+POST /api/auth/login
+		{email, password} => {userData, accessToken, refreshToken in cookies}
+POST /api/auth/register
+		{name, email, password} => {userData, accessToken, refreshToken in cookies}
+PUT /api/auth/refresh
+		{refreshToken in cookies} => {userData, accessToken, refreshToken in cookies}
+DELETE /api/auth/logout
+		{refreshToken in cookies} => {}
+
+GET /api/user
+		{accessToken} => {userData, progress}
+PATCH /api/user
+		{accessToken, newUserData} => {userData, progress}
+
+GET /api/topic_blocks
+		{accessToken} => {(id, name, image, progress)[]}
+
+GET /api/topic_blocks/:id/questions
+		{accessToken} => {(question, stars_count)[]}
+PUT /api/topic_blocks/:id/questions/:id
+		{accessToken, words[], star_count} => {status}
