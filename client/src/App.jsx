@@ -1,5 +1,7 @@
-function App() {
-  return <p className='text-5xl'>ajflsdflsd</p>;
-}
+import Input from "./components/ui/Input";
 
-export default App;
+export default function App() {
+    return <p className="text-5xl">
+      <Input label='email'/>
+    </p>;
+}
