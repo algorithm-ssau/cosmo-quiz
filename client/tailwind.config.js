@@ -12,15 +12,15 @@ export default {
       primary: '#2A1B3D',
       background: '#44318D',
       secondary: '#E98074',
-      grey: 'A4B3B6',
-      white: 'FFFFFF',
+      grey: '#A4B3B6',
+      white: '#FFFFFF',
       error: 'rgb(255, 87, 87)',
     },
 
     borderRadius: {
       none: '0',
-      sm: '.125rem',
-      DEFAULT: '.4rem',
+      sm: '.3rem',
+      DEFAULT: '.6rem',
       full: '9999px',
     },
 
