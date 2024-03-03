@@ -5,7 +5,8 @@
 @layer base {
   body {
     @apply text-primary;
-    @apply bg-grey;
+    @apply bg-white;
+    @apply text-base;
   }
 }
 
