@@ -5,11 +5,12 @@ export default function Input(props) {
                 {props.label}:
             </label>
             <input
-                id={props.label}
-                type="text"
+                id={props.id}
+                type={props.type}
                 className="w-full px-4 py-2 m-1 border border-solid rounded focus:outline-none focus:ring-2 focus:ring-accent focus:border-none"
                 value={props.value}
-                onChange={(event) => props.setValue(event.target.value)}
+                onChange={props.setValue}
+                onBlur={props.onBlur}
             />
         </div>
     );
