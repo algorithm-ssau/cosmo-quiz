@@ -68,8 +68,6 @@ export default function LoginWindow() {
         break;
     }
   };
-  
-  
 
   if (content) {
     return (
@@ -101,14 +99,21 @@ export default function LoginWindow() {
             onBlur={blurHandler}
           ></Input>
           {passwordDirty && passwordError && (
-            <div className="mb-4 ml-6 place-self-start text-error">{passwordError}</div>
+            <div className="mb-4 ml-6 place-self-start text-error">
+              {passwordError}
+            </div>
           )}
           <Button isActive={formValid}>Войти</Button>
           <p className="text-white">
             Нет аккаунта?{" "}
             <a
               className="cursor-pointer text-accent hover:underline"
-              onClick={() => {setContent(false); setEmail(""); setPassword(""); setUserName("")}}
+              onClick={() => {
+                setContent(false);
+                setEmail("");
+                setPassword("");
+                setUserName("");
+              }}
             >
               Зарегистрироваться
             </a>
@@ -133,7 +138,9 @@ export default function LoginWindow() {
             onBlur={blurHandler}
           ></Input>
           {userNameDirty && userNameError && (
-            <div className="mb-2 ml-6 place-self-start text-error">{userNameError}</div>
+            <div className="mb-2 ml-6 place-self-start text-error">
+              {userNameError}
+            </div>
           )}
           <Input
             type="text"
@@ -144,7 +151,9 @@ export default function LoginWindow() {
             onBlur={blurHandler}
           ></Input>
           {emailDirty && emailError && (
-            <div className="mb-2 ml-6 place-self-start text-error">{emailError}</div>
+            <div className="mb-2 ml-6 place-self-start text-error">
+              {emailError}
+            </div>
           )}
           <Input
             type="password"
@@ -155,14 +164,21 @@ export default function LoginWindow() {
             onBlur={blurHandler}
           ></Input>
           {passwordDirty && passwordError && (
-            <div className="mb-4 ml-6 place-self-start text-error">{passwordError}</div>
+            <div className="mb-4 ml-6 place-self-start text-error">
+              {passwordError}
+            </div>
           )}
           <Button isActive={formValid}>Зарегистрироваться</Button>
           <p className="text-white">
             Уже есть аккаунт?{" "}
             <a
               className="cursor-pointer text-accent hover:underline"
-              onClick={() => {setContent(true) ; setEmail(""); setPassword(""); setUserName("")}}
+              onClick={() => {
+                setContent(true);
+                setEmail("");
+                setPassword("");
+                setUserName("");
+              }}
             >
               Войти
             </a>
