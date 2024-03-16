@@ -86,7 +86,7 @@ export default function LoginWindow() {
             onBlur={blurHandler}
           ></Input>
           {emailDirty && emailError && (
-            <span className="mb-2 ml-6 place-self-start text-error">
+            <span className="mb-2 ml-6 text-base place-self-start text-error">
               {emailError}
             </span>
           )}
@@ -99,12 +99,12 @@ export default function LoginWindow() {
             onBlur={blurHandler}
           ></Input>
           {passwordDirty && passwordError && (
-            <div className="mb-4 ml-6 place-self-start text-error">
+            <div className="mb-4 ml-6 text-base place-self-start text-error">
               {passwordError}
             </div>
           )}
           <Button isActive={formValid}>Войти</Button>
-          <p className="text-white">
+          <p className="text-base text-white">
             Нет аккаунта?{" "}
             <a
               className="cursor-pointer text-accent hover:underline"
@@ -113,6 +113,9 @@ export default function LoginWindow() {
                 setEmail("");
                 setPassword("");
                 setUserName("");
+                setEmailDirty(false);
+                setPasswordDirty(false);
+                setUserNameDirty(false);
               }}
             >
               Зарегистрироваться
@@ -169,7 +172,7 @@ export default function LoginWindow() {
             </div>
           )}
           <Button isActive={formValid}>Зарегистрироваться</Button>
-          <p className="text-white">
+          <p className="text-base text-white ">
             Уже есть аккаунт?{" "}
             <a
               className="cursor-pointer text-accent hover:underline"
@@ -178,6 +181,9 @@ export default function LoginWindow() {
                 setEmail("");
                 setPassword("");
                 setUserName("");
+                setEmailDirty(false);
+                setPasswordDirty(false);
+                setUserNameDirty(false);
               }}
             >
               Войти
