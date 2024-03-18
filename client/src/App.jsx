@@ -1,7 +1,10 @@
-import Input from "./components/ui/Input";
+import Authorization from "./components/pages/Authorization";
+import { HelmetProvider } from "react-helmet-async";
 
 export default function App() {
-    return <p className="text-5xl">
-      <Input label='email'/>
-    </p>;
+    return (
+        <HelmetProvider>
+            <Authorization />
+        </HelmetProvider>
+    );
 }

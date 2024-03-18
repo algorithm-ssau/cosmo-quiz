@@ -71,7 +71,7 @@ export default function LoginWindow() {
 
   if (content) {
     return (
-      <div className="flex items-stretch place-content-center">
+      <div className="flex items-stretch place-content-center sm:w-screen">
         <form
           action=""
           className="grid grid-cols-1 border-2 rounded place-items-center bg-primary"
