@@ -48,7 +48,10 @@
 
   - В директории **python-api**:
     ```bash
-    хз че run че-то
+    python -m venv .venv
+    . .venv/bin/activate
+    pip install -r requirements.txt
+    gunicorn wsgi:app --bind=0.0.0.0:5002 -w 13
     ```
 
 - Приложение будет доступно по адресу: [http://localhost:5000](http://localhost:5000)
