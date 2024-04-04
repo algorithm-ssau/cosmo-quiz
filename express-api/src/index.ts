@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import initDatabase from './db/InitDatabase';
+import ErrorMiddleware from './middlewares/ErrorMiddleware';
 import AuthRouter from './routers/AuthRouter';
 import QuestionsRouter from './routers/QuestionsRouter';
 import TopicsRouter from './routers/TopicsRouter';
@@ -23,6 +24,8 @@ app.use('/api/auth', AuthRouter);
 app.use('/api/user', UserRouter);
 app.use('/api/topics', TopicsRouter);
 app.use('/api/topics/:id', QuestionsRouter);
+
+app.use(ErrorMiddleware);
 
 async function start() {
   await mongoose.connect(DB_URL);

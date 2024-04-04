@@ -1,9 +1,16 @@
 import { Model, Schema, model } from 'mongoose';
-import TAuth from 'src/types/Auth';
+import TAuth from 'types/Auth';
 
 const AuthSchema = new Schema<TAuth, Model<TAuth>>({
-  user_id: Schema.Types.ObjectId,
-  refresh_token: String,
+  user_id: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    unique: true,
+  },
+  refresh_token: {
+    type: String,
+    required: true,
+  },
 });
 
 const Auth = model<TAuth, Model<TAuth>>('Auth', AuthSchema);
