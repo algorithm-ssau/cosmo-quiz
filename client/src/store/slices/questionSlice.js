@@ -151,7 +151,6 @@ export const questionSlice = createAppSlice({
   }),
 });
 
-export const { setWords, setChars, selectChar, unselectChar, fetchData } =
-  questionSlice.actions;
+export const { setWords, setChars, selectChar, unselectChar, fetchData } = questionSlice.actions;
 
 export default questionSlice.reducer;
