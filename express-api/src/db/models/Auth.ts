@@ -5,7 +5,6 @@ const AuthSchema = new Schema<TAuth, Model<TAuth>>({
   user_id: {
     type: Schema.Types.ObjectId,
     required: true,
-    unique: true,
   },
   refresh_token: {
     type: String,
