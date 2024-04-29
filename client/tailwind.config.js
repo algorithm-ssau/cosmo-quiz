@@ -15,6 +15,7 @@ export default {
       grey: '#A4B3B6',
       white: '#FFFFFF',
       error: 'rgb(255, 87, 87)',
+      gold: '#FFD700'
     },
 
     borderRadius: {
