@@ -28,15 +28,15 @@ export default function App() {
                 {Private.map(elem => {
                   <Route key={elem.path} path={elem.path} Component={elem.component} />;
                 })}
+                <Route path='*' element={<Navigate to='/' replace={true} />} />
               </Route>
-              <Route path='*' element={<Navigate to='/' replace={true} />} />
             </Routes>
           ) : (
             <Routes>
               {Public.map(elem => {
                 <Route key={elem.path} path={elem.path} Component={elem.component} />;
+                <Route path='*' element={<Navigate to='/login' replace={true} />} />;
               })}
-              <Route path='*' element={<Navigate to='/login' replace={true} />} />
             </Routes>
           )}
         </>
