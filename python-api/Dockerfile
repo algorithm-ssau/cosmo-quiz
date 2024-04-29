@@ -46,4 +46,4 @@ COPY . .
 EXPOSE 5002
 
 # Run the application.
-CMD gunicorn wsgi:app --bind=0.0.0.0:5002 -w 13
+CMD gunicorn wsgi:app --bind=localhost:5002 -w 13
