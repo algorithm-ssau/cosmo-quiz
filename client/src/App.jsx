@@ -25,18 +25,18 @@ export default function App() {
           {isAuth ? (
             <Routes>
               <Route element={<Layout />}>
-                {Private.map(elem => {
-                  <Route key={elem.path} path={elem.path} Component={elem.component} />;
-                })}
+                {Private.map(elem => (
+                  <Route key={elem.path} path={elem.path} Component={elem.component} />
+                ))}
                 <Route path='*' element={<Navigate to='/' replace={true} />} />
               </Route>
             </Routes>
           ) : (
             <Routes>
-              {Public.map(elem => {
-                <Route key={elem.path} path={elem.path} Component={elem.component} />;
-                <Route path='*' element={<Navigate to='/login' replace={true} />} />;
-              })}
+              {Public.map(elem => (
+                <Route key={elem.path} path={elem.path} Component={elem.component} />
+              ))}
+              <Route path='*' element={<Navigate to='/login' replace={true} />} />
             </Routes>
           )}
         </>
