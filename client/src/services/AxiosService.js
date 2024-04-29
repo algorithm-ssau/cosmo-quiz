@@ -5,7 +5,7 @@ const http = axios.create({
 });
 
 http.interceptors.request.use(config => {
-  config.headers.Authorization = Bearer ${localStorage.getItem('accessToken')};
+  config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
   return config;
 });
 
