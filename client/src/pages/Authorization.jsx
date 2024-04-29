@@ -1,4 +1,4 @@
-import LoginWindow from '../containers/LoginWindow';
+import LoginWindow from '../components/containers/LoginWindow';
 import { Helmet } from 'react-helmet-async';
 
 export default function Authorization() {
