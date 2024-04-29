@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { Types } from 'mongoose';
 import { TAccessPayload, TRefreshPayload } from 'types/Common';
 import Auth from '../db/models/Auth';
+import TAuth from 'types/Auth'
 
 class TokenService {
   generateAccessToken(payload: TAccessPayload): string {
@@ -16,7 +17,7 @@ class TokenService {
     });
   }
 
-  validateAccessToken(token: string) {
+  validateAccessToken(token: string): jwt.JwtPayload | null {
     try {
       return <jwt.JwtPayload>jwt.verify(token, process.env.ACCESS_SECRET || 'access');
     } catch (error) {
@@ -24,7 +25,7 @@ class TokenService {
     }
   }
 
-  validateRefreshToken(token: string) {
+  validateRefreshToken(token: string): jwt.JwtPayload | null {
     try {
       return <jwt.JwtPayload>jwt.verify(token, process.env.REFRESH_SECRET || 'refresh');
     } catch (error) {
@@ -32,16 +33,21 @@ class TokenService {
     }
   }
 
-  getPayload(token: string) {
+  getPayload(token: string): jwt.JwtPayload | null {
     try {
-      return jwt.decode(token);
+      return <jwt.JwtPayload>jwt.decode(token);
     } catch (error) {
       return null;
     }
   }
 
-  async saveRefreshToken(id: Types.ObjectId, token: string) {
-    Auth.findOneAndUpdate({ user_id: id }, { user_id: id, refresh_token: token }, { upsert: true });
+  async saveRefreshToken(id: Types.ObjectId, token: string): Promise<TAuth> {
+    const res = await Auth.create({user_id: id, refresh_token: token})
+    return res;
+  }
+
+  async deleteRefreshToken(id: Types.ObjectId, token: string) {
+    await Auth.deleteOne({user_id: id, refresh_token: token}).exec()
   }
 }
 
