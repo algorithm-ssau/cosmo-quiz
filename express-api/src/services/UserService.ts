@@ -6,7 +6,7 @@ export default class UserService {
   static async register(
     name: string,
     email: string,
-    password: string
+    password: string,
   ): Promise<TUser | null> {
     // Проверяем, существует ли пользователь с таким же email
     const existingUser = await User.findOne({ email });

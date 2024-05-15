@@ -1,5 +1,5 @@
-import { Model, Schema, model } from 'mongoose';
-import TUser from 'types/User';
+import { Model, Schema, model } from "mongoose";
+import TUser from "types/User";
 
 const UserSchema = new Schema<TUser, Model<TUser>>({
   name: {
@@ -24,6 +24,6 @@ const UserSchema = new Schema<TUser, Model<TUser>>({
   ],
 });
 
-const User = model<TUser, Model<TUser>>('User', UserSchema);
+const User = model<TUser, Model<TUser>>("User", UserSchema);
 
 export default User;

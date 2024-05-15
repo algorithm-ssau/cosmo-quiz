@@ -1,5 +1,5 @@
-import { Model, Schema, model } from 'mongoose';
-import TQuestion from 'types/Question';
+import { Model, Schema, model } from "mongoose";
+import TQuestion from "types/Question";
 
 export const QuestionSchema = new Schema<TQuestion, Model<TQuestion>>({
   name: {
@@ -23,6 +23,6 @@ export const QuestionSchema = new Schema<TQuestion, Model<TQuestion>>({
   answerVideo: String,
 });
 
-const Question = model<TQuestion, Model<TQuestion>>('Question', QuestionSchema);
+const Question = model<TQuestion, Model<TQuestion>>("Question", QuestionSchema);
 
 export default Question;

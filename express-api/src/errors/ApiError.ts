@@ -9,11 +9,11 @@ export default class ApiError extends Error {
   }
 
   static Forbidden() {
-    return new ApiError(403, 'Доступ запрещен');
+    return new ApiError(403, "Доступ запрещен");
   }
 
   static Unauthorized() {
-    return new ApiError(401, 'Пользователь не авторизован');
+    return new ApiError(401, "Пользователь не авторизован");
   }
 
   static BadRequest(message: string, stack?: string) {
