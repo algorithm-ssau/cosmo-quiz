@@ -1,18 +1,25 @@
-import { Types, isObjectIdOrHexString, isValidObjectId } from "mongoose";
+import { Types } from "mongoose";
 import TTopic from "../types/Topic";
 import Topic from "../db/models/Topic";
+import TQuestion from "../types/Question";
 
-export default class TopicService {
-  static async getAll(): Promise<TTopic[] | null> {
+class TopicService {
+  async getAll(): Promise<TTopic[] | null> {
     const topics = await Topic.find().exec();
     return topics;
   }
 
-  static async get(id: Types.ObjectId): Promise<TTopic | null> {
-    const topic = await Topic.findOne({ _id: id }).exec();
+  async get(
+    id: Types.ObjectId,
+  ): Promise<TTopic | { questions: TQuestion[] } | null> {
+    const topic = await Topic.findOne({ _id: id })
+      .populate<{ questions: TQuestion[] }>("questions")
+      .exec();
     if (!topic) {
       return null;
     }
     return topic;
   }
 }
+
+export default new TopicService();

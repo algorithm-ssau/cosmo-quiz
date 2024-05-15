@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { TAccessPayload } from "../types/Common";
 import UserService from "../services/UserService";
 import ApiError from "../errors/ApiError";
-import TypedBodyRequest from "../utils/TypedRequest";
 
 class UserController {
   async get(req: Request, res: Response, next: NextFunction) {

@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use("/api/auth", AuthRouter);
 app.use("/api/user", AuthMiddleware, UserRouter);
 app.use("/api/topics", AuthMiddleware, TopicsRouter);
-app.use("/api/topics/:id", AuthMiddleware, QuestionsRouter);
+app.use("/api/questions", AuthMiddleware, QuestionsRouter);
 
 app.use(ErrorMiddleware);
 

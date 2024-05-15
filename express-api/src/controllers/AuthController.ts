@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { Types } from "mongoose";
 import { TLoginBody, TRegisterBody } from "../types/Common";
 import TypedBodyRequest from "../utils/TypedRequest";
 import ApiError from "../errors/ApiError";
@@ -95,7 +94,7 @@ class AuthController {
     }
   }
 
-  logout(req: Request, res: Response, next: NextFunction) {
+  async logout(req: Request, res: Response, next: NextFunction) {
     try {
       const refreshToken = req.cookies.refreshToken;
       const payload = TokenService.getPayload(refreshToken);
@@ -109,7 +108,7 @@ class AuthController {
     }
   }
 
-  refresh(req: Request, res: Response, next: NextFunction) {
+  async refresh(req: Request, res: Response, next: NextFunction) {
     try {
       const oldRefreshToken = req.cookies.refreshToken;
       if (!oldRefreshToken) {
