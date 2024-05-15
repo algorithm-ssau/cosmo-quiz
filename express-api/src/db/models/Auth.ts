@@ -1,5 +1,5 @@
 import { Model, Schema, model } from "mongoose";
-import TAuth from "types/Auth";
+import TAuth from "../../types/Auth";
 
 const AuthSchema = new Schema<TAuth, Model<TAuth>>({
   user_id: {

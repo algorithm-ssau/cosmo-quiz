@@ -1,5 +1,5 @@
 import { Model, Schema, model } from "mongoose";
-import TQuestion from "types/Question";
+import TQuestion from "../../types/Question";
 
 export const QuestionSchema = new Schema<TQuestion, Model<TQuestion>>({
   name: {

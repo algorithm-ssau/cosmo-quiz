@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema } from "mongoose";
-import TTopic from "types/Topic";
+import TTopic from "../../types/Topic";
 
 const TopicSchema = new Schema<TTopic, Model<TTopic>>({
   name: {

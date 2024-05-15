@@ -1,6 +1,7 @@
-import TUser from "types/User";
+import TUser from "../types/User";
 import User from "../db/models/User";
 import bcrypt from "bcryptjs";
+import { Types } from "mongoose";
 
 export default class UserService {
   static async register(
@@ -44,6 +45,11 @@ export default class UserService {
     }
 
     // Возвращаем пользователя для создания токенов
+    return user;
+  }
+
+  static async get(id: Types.ObjectId) {
+    const user = await User.findOne({ _id: id }).exec();
     return user;
   }
 }

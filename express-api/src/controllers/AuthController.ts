@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
-import { TLoginBody, TRegisterBody } from "types/Common";
-import TypedBodyRequest from "utils/TypedRequest";
+import { TLoginBody, TRegisterBody } from "../types/Common";
+import TypedBodyRequest from "../utils/TypedRequest";
 import ApiError from "../errors/ApiError";
 import TokenService from "../services/TokenService";
 import UserService from "../services/UserService";

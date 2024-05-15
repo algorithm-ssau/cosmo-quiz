@@ -6,8 +6,8 @@ import mongoose from "mongoose";
 import initDatabase from "./db/InitDatabase";
 import ErrorMiddleware from "./middlewares/ErrorMiddleware";
 import AuthRouter from "./routers/AuthRouter";
-import QuestionsRouter from "./routers/QuestionsRouter";
-import TopicsRouter from "./routers/TopicsRouter";
+import QuestionsRouter from "./routers/QuestionRouter";
+import TopicsRouter from "./routers/TopicRouter";
 import UserRouter from "./routers/UserRouter";
 import AuthMiddleware from "./middlewares/AuthMiddleware";
 

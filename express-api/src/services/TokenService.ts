@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import { Types } from "mongoose";
-import { TAccessPayload, TRefreshPayload } from "types/Common";
+import { TAccessPayload, TRefreshPayload } from "../types/Common";
 import Auth from "../db/models/Auth";
-import TAuth from "types/Auth";
+import TAuth from "../types/Auth";
 
 class TokenService {
   generateAccessToken(payload: TAccessPayload): string {
