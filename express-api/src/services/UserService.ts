@@ -1,12 +1,13 @@
-import TUser from "types/User";
+import TUser from "../types/User";
 import User from "../db/models/User";
 import bcrypt from "bcryptjs";
+import { Types } from "mongoose";
 
-export default class UserService {
-  static async register(
+class UserService {
+  async register(
     name: string,
     email: string,
-    password: string
+    password: string,
   ): Promise<TUser | null> {
     // Проверяем, существует ли пользователь с таким же email
     const existingUser = await User.findOne({ email });
@@ -30,7 +31,7 @@ export default class UserService {
     return user;
   }
 
-  static async login(email: string, password: string): Promise<TUser | null> {
+  async login(email: string, password: string): Promise<TUser | null> {
     // Пытаемся найти пользователя по email
     const user = await User.findOne({ email }).exec();
     if (!user) {
@@ -46,4 +47,11 @@ export default class UserService {
     // Возвращаем пользователя для создания токенов
     return user;
   }
+
+  async get(id: Types.ObjectId) {
+    const user = await User.findOne({ _id: id }).exec();
+    return user;
+  }
 }
+
+export default new UserService();

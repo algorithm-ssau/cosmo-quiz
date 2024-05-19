@@ -1,5 +1,5 @@
-import { Model, Schema, model } from 'mongoose';
-import TAuth from 'types/Auth';
+import { Model, Schema, model } from "mongoose";
+import TAuth from "../../types/Auth";
 
 const AuthSchema = new Schema<TAuth, Model<TAuth>>({
   user_id: {
@@ -12,6 +12,6 @@ const AuthSchema = new Schema<TAuth, Model<TAuth>>({
   },
 });
 
-const Auth = model<TAuth, Model<TAuth>>('Auth', AuthSchema);
+const Auth = model<TAuth, Model<TAuth>>("Auth", AuthSchema);
 
 export default Auth;

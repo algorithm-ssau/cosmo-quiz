@@ -1,5 +1,5 @@
-import mongoose, { Model, Schema } from 'mongoose';
-import TTopic from 'types/Topic';
+import mongoose, { Model, Schema } from "mongoose";
+import TTopic from "../../types/Topic";
 
 const TopicSchema = new Schema<TTopic, Model<TTopic>>({
   name: {
@@ -10,10 +10,10 @@ const TopicSchema = new Schema<TTopic, Model<TTopic>>({
   // questions: [QuestionSchema],
   questions: {
     type: [Schema.Types.ObjectId],
-    ref: 'Question',
+    ref: "Question",
   },
 });
 
-const Topic = mongoose.model<TTopic, Model<TTopic>>('Topic', TopicSchema);
+const Topic = mongoose.model<TTopic, Model<TTopic>>("Topic", TopicSchema);
 
 export default Topic;
