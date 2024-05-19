@@ -10,6 +10,7 @@ import QuestionsRouter from "./routers/QuestionRouter";
 import TopicsRouter from "./routers/TopicRouter";
 import UserRouter from "./routers/UserRouter";
 import AuthMiddleware from "./middlewares/AuthMiddleware";
+import GameRouter from "./routers/GameRouter";
 
 dotenv.config();
 const PORT = process.env.EXPRESS_API_PORT || 5001;
@@ -25,6 +26,7 @@ app.use("/api/auth", AuthRouter);
 app.use("/api/user", AuthMiddleware, UserRouter);
 app.use("/api/topics", AuthMiddleware, TopicsRouter);
 app.use("/api/questions", AuthMiddleware, QuestionsRouter);
+app.use("/api/game", AuthMiddleware, GameRouter);
 
 app.use(ErrorMiddleware);
 
