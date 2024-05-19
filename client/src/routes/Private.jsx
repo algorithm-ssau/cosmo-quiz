@@ -1,6 +1,7 @@
-const Private = () => {
-	return (
-		<div>Private page</div>
-	)
-}
-export default [{ path: '/', component: Private }];
+import Main from '../pages/Main';
+import Topic from '../pages/Topic';
+
+export default [
+  { path: '/', component: Main },
+  { path: '/topic/:id', component: Topic },
+];
