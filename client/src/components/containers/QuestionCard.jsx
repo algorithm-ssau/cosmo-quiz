@@ -12,7 +12,7 @@ export default function QuestionCard({
 }) {
   if (isAvailable) {
     return (
-      <div className="grid items-stretch h-48 grid-cols-5 ml-5 rounded bg-gradient-to-b from-lightBlue to-darkBlue">
+      <div className="grid items-stretch h-48 grid-cols-5 rounded bg-gradient-to-b from-lightBlue to-darkBlue hover:ring-2 ring-gold">
         <div className="col-span-4 mt-5 ml-5 ">
           <div className="flex">
             {starsCount === 0 && (
@@ -74,7 +74,7 @@ export default function QuestionCard({
     );
   } else {
     return (
-      <div className="static grid items-stretch h-48 grid-cols-5 ml-5 rounded bg-gradient-to-b from-lightBlue to-darkBlue">
+      <div className="static grid items-stretch h-48 rounded bg-gradient-to-b from-lightBlue to-darkBlue">
         <div className="grid items-stretch h-48 grid-cols-5 rounded bg-gradient-to-b from-lightBlue to-darkBlue blur-sm">
           <div className="col-span-4 mt-5 ml-5 ">
             <div className="flex">
