@@ -2,12 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import { TAccessPayload } from "../types/Common";
 import UserService from "../services/UserService";
 import ApiError from "../errors/ApiError";
+import getPayloadFromHeader from "../utils/GetPayloadFromHeader";
 
 class UserController {
   async get(req: Request, res: Response, next: NextFunction) {
     try {
-      const userHeader = req.header("user")!;
-      const payload = JSON.parse(userHeader) as TAccessPayload;
+      const payload = getPayloadFromHeader(req);
 
       const user = await UserService.get(payload.id);
       if (!user) {

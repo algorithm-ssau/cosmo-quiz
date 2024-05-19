@@ -18,3 +18,14 @@ export type TLoginBody = {
   email?: string;
   password?: string;
 };
+
+export type TAnswerBody = {
+  topic_id?: string;
+  question_id?: string;
+  words?: string[];
+  stars_count?: number;
+};
+
+export type TGetQuestionDataBody = {
+  question_id?: string;
+};
