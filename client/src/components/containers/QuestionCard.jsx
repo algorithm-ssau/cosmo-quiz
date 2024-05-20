@@ -9,10 +9,13 @@ export default function QuestionCard({
   number,
   isDone,
   isAvailable,
+  onClick
 }) {
   if (isAvailable) {
     return (
-      <div className="grid items-stretch h-48 grid-cols-5 rounded bg-gradient-to-b from-lightBlue to-darkBlue hover:ring-2 ring-gold">
+      <div className="grid items-stretch h-48 grid-cols-5 rounded bg-gradient-to-b from-lightBlue to-darkBlue hover:ring-2 ring-gold" onClick={() => {
+        onClick()
+      }}>
         <div className="col-span-4 mt-5 ml-5 ">
           <div className="flex">
             {starsCount === 0 && (

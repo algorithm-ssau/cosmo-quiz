@@ -1,8 +1,10 @@
 import { IoStar } from "react-icons/io5";
 
-export default function TopicCard({ title, starsCount}) {
+export default function TopicCard({ title, starsCount, onClick}) {
   return (
-    <div className="rounded hover:ring-4 ring-gold">
+    <div className="rounded hover:ring-4 ring-gold" onClick={() => {
+      onClick()
+    }}>
       <div className="grid items-stretch grid-cols-5 rounded ring-2  ring-secondary bg-[url('/bg-topic1.jpeg')] bg-cover h-48">
         <div className="col-span-4 mt-10 ml-5">
           <h1 className="text-xl text-white">{title}</h1>
