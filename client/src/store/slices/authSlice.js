@@ -5,7 +5,7 @@ export const authSlice = createAppSlice({
   name: 'auth',
   initialState: {
     user: {},
-    isAuth: false,
+    isAuth: true,
     errorMessage: '',
 
     isLoading: false,
@@ -39,7 +39,7 @@ export const authSlice = createAppSlice({
     register: create.asyncThunk(
       async (payload, config) => {
         try {
-          const res = await AuthService.register(payload.email, payload.password);
+          const res = await AuthService.register(payload.name, payload.email, payload.password);
           localStorage.setItem('accessToken', res.data.accessToken);
           return res.data.user;
         } catch (error) {

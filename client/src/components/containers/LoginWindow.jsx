@@ -1,6 +1,8 @@
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 import { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux'
+import { login, register } from '../../store/slices/authSlice'
 export default function LoginWindow() {
   const [content, setContent] = useState(true);
   const [email, setEmail] = useState("");
@@ -13,6 +15,8 @@ export default function LoginWindow() {
   const [passwordError, setPasswordError] = useState("Введите пароль");
   const [userNameError, setUserNameError] = useState("Введите имя");
   const [formValid, setFormValid] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (emailError || (passwordError && content)) {
@@ -103,7 +107,10 @@ export default function LoginWindow() {
               {passwordError}
             </div>
           )}
-          <Button isActive={formValid}>Войти</Button>
+          <Button isActive={formValid} onClick={(e) => {
+            e.preventDefault()
+            dispatch(login({email, password}))
+          }}>Войти</Button>
           <p className="text-base text-white">
             Нет аккаунта?{" "}
             <a
@@ -171,7 +178,10 @@ export default function LoginWindow() {
               {passwordError}
             </div>
           )}
-          <Button isActive={formValid}>Зарегистрироваться</Button>
+          <Button isActive={formValid} onClick={(e) => {
+            e.preventDefault()
+            dispatch(register({name: userName, email, password}))
+          }}>Зарегистрироваться</Button>
           <p className="text-base text-white ">
             Уже есть аккаунт?{" "}
             <a

@@ -1,24 +1,21 @@
-import { NextFunction, Request, Response } from "express";
-import { TLoginBody, TRegisterBody } from "../types/Common";
-import TypedBodyRequest from "../utils/TypedRequest";
-import ApiError from "../errors/ApiError";
-import TokenService from "../services/TokenService";
-import UserService from "../services/UserService";
+import { NextFunction, Request, Response } from 'express';
+import { TLoginBody, TRegisterBody } from '../types/Common';
+import TypedBodyRequest from '../utils/TypedRequest';
+import ApiError from '../errors/ApiError';
+import TokenService from '../services/TokenService';
+import UserService from '../services/UserService';
+import { Types } from 'mongoose';
 
 class AuthController {
-  async register(
-    req: TypedBodyRequest<TRegisterBody>,
-    res: Response,
-    next: NextFunction,
-  ) {
+  async register(req: TypedBodyRequest<TRegisterBody>, res: Response, next: NextFunction) {
     try {
       const { name, email, password } = req.body;
       if (!name || !email || !password) {
-        throw ApiError.BadRequest("Ошибка валидации");
+        throw ApiError.BadRequest('Ошибка валидации');
       }
       const user = await UserService.register(name, email, password);
       if (!user) {
-        throw ApiError.BadRequest("Пользователь с таким email уже существует");
+        throw ApiError.BadRequest('Пользователь с таким email уже существует');
       }
 
       const accessToken = TokenService.generateAccessToken({ id: user._id });
@@ -28,7 +25,7 @@ class AuthController {
 
       res
         .status(200)
-        .cookie("refreshToken", refreshToken, {
+        .cookie('refreshToken', refreshToken, {
           maxAge: 30 * 24 * 60 * 60 * 1000,
           httpOnly: true,
         })
@@ -47,21 +44,17 @@ class AuthController {
     }
   }
 
-  async login(
-    req: TypedBodyRequest<TLoginBody>,
-    res: Response,
-    next: NextFunction,
-  ) {
+  async login(req: TypedBodyRequest<TLoginBody>, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
       const oldRefreshToken = req.cookies.refreshToken;
       if (!email || !password) {
-        throw ApiError.BadRequest("Ошибка валидации");
+        throw ApiError.BadRequest('Ошибка валидации');
       }
 
       const user = await UserService.login(email, password);
       if (!user) {
-        throw ApiError.BadRequest("Неправильный логин или пароль");
+        throw ApiError.BadRequest('Неправильный логин или пароль');
       }
 
       const accessToken = TokenService.generateAccessToken({ id: user._id });
@@ -75,7 +68,7 @@ class AuthController {
 
       res
         .status(200)
-        .cookie("refreshToken", refreshToken, {
+        .cookie('refreshToken', refreshToken, {
           maxAge: 30 * 24 * 60 * 60 * 1000,
           httpOnly: true,
         })
@@ -102,7 +95,7 @@ class AuthController {
       if (refreshToken && payload) {
         TokenService.deleteRefreshToken(payload.id, refreshToken);
       }
-      res.status(200).clearCookie("refreshToken").send();
+      res.status(200).clearCookie('refreshToken').send();
     } catch (error) {
       next(error);
     }
@@ -127,13 +120,28 @@ class AuthController {
 
       TokenService.saveRefreshToken(payload.id, refreshToken);
 
+      const user = await UserService.get(new Types.ObjectId(payload.id as string));
+
+      if (!user) {
+        throw ApiError.BadRequest('Неправильный логин или пароль');
+      }
+
       res
         .status(200)
-        .cookie("refreshToken", refreshToken, {
+        .cookie('refreshToken', refreshToken, {
           maxAge: 30 * 24 * 60 * 60 * 1000,
           httpOnly: true,
         })
-        .json({ accessToken: accessToken });
+        .json({
+          user: {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            topic_progress: user.topic_progress,
+            question_stars: user.question_stars,
+          },
+          accessToken: accessToken,
+        });
     } catch (error) {
       next(error);
     }
