@@ -10,7 +10,7 @@
 services:
   server:
     build:
-      context: .
+      context: python-api
     ports:
       - 5002:5002
 
