@@ -5,10 +5,9 @@ import CharBox from '../ui/CharBox';
 export default function WordList() {
   const dispatch = useDispatch();
   const words = useSelector(state => state.question.words);
-  console.log(words);
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='flex flex-col items-center gap-2'>
       {words.map((word, wordIndex) => {
         return (
           <div key={wordIndex} className='flex flex-wrap gap-2'>

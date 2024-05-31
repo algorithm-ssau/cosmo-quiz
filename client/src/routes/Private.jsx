@@ -5,5 +5,5 @@ import Topic from '../pages/Topic';
 export default [
   { path: '/', component: Main },
   { path: '/topics/:id', component: Topic },
-	{ path: '/question/:id', component: Question}
+	{ path: '/topics/:id/:question_id', component: Question}
 ];

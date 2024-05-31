@@ -8,7 +8,7 @@ export const topicSlice = createAppSlice({
 		topic: {},
     errorMessage: '',
 
-    isLoading: false,
+    isLoading: true,
   },
 
   reducers: create => ({
@@ -39,7 +39,8 @@ export const topicSlice = createAppSlice({
       },
       {
         pending: state => {
-          (state.isLoading = true), (state.errorMessage = '');
+          state.isLoading = true
+          state.errorMessage = ''
         },
         fulfilled: (state, action) => {
           state.topic = action.payload
