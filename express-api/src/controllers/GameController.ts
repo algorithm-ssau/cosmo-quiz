@@ -29,7 +29,7 @@ class GameController {
       const topicId = new Types.ObjectId(topic_id);
       const questionId = new Types.ObjectId(question_id);
 
-      if (!GameService.checkAnswer(words, questionId)) {
+      if (!(await GameService.checkAnswer(words, questionId))) {
         res.status(200).json({
           status: "wrong",
         });
@@ -82,6 +82,24 @@ class GameController {
       res.status(200).json(lengths);
     } catch (error) {
       next(error);
+    }
+  }
+
+  async getGameData(req: Request, res: Response, next: NextFunction) {
+    try {
+      const question_id_param = req.params.id;
+      if (!isObjectIdOrHexString(question_id_param)) {
+        throw ApiError.BadRequest("Неверный id");
+      }
+      const question_id = new Types.ObjectId(question_id_param);
+
+      const result = await GameService.getGameData(question_id)
+      if (!result) {
+        throw ApiError.BadRequest("Неверные данные");
+      }
+      res.status(200).json(result)
+    } catch (error) {
+      next(error)
     }
   }
 }

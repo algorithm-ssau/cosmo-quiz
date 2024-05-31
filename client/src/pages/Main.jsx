@@ -23,7 +23,7 @@ export default function Main() {
     dispatch(getAllTopics());
   }, [dispatch]);
 
-  if (isLoading) {
+  if (isLoading && !topics) {
     return <></>;
   }
 
@@ -32,7 +32,7 @@ export default function Main() {
       <Helmet>
         <title>Главная страница</title>
       </Helmet>
-      <div className='grid h-full grid-cols-4 gap-5 p-3 bg-background'>
+      <div className='grid h-full grid-cols-4 gap-5 p-3'>
         {topics.map(topic => {
           return (
             <div key={topic._id}>

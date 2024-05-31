@@ -1,3 +1,4 @@
+import GameService from '../../services/GameService'
 import createAppSlice from '../createAppSlice';
 
 export const questionSlice = createAppSlice({
@@ -6,26 +7,20 @@ export const questionSlice = createAppSlice({
     words: [],
     chars: [],
     wordsLengths: [],
+    isDone: false,
+    isRightAnswer: false,
 
     isLoading: false,
   },
 
   reducers: create => ({
     fetchData: create.asyncThunk(async (payload, config) => {
-      config.dispatch(setWords({ wordsLengths: [3, 2, 7] }));
+      const data = await (await GameService.getGameData(payload.question_id)).data
+      config.dispatch(setWords({ wordsLengths: data.wordsLengths }));
       config.dispatch(
-        setChars([
-          { id: 1, char: 'q', selected: false },
-          { id: 2, char: 'w', selected: false },
-          { id: 3, char: 'e', selected: false },
-          { id: 4, char: 'r', selected: false },
-          { id: 5, char: 't', selected: false },
-          { id: 6, char: 'y', selected: false },
-          { id: 7, char: 'u', selected: false },
-          { id: 8, char: 'i', selected: false },
-        ])
+        setChars(data.chars)
       );
-      return console.log('data fetched');
+      config.dispatch(setIsDone(false))
     }),
 
     setWords: create.reducer((state, action) => {
@@ -69,7 +64,6 @@ export const questionSlice = createAppSlice({
       for (let i = 0; i < state.chars.length; i++) {
         if (state.chars[i].id === action.payload) {
           index = i;
-          state.chars[i].selected = true;
           break;
         }
       }
@@ -82,6 +76,10 @@ export const questionSlice = createAppSlice({
         if (chars[i].char === '') {
           chars[i].id = action.payload;
           chars[i].char = state.chars[index].char;
+          state.chars[index].selected = true;
+          if (i === chars.length - 1) {
+            state.isDone = true
+          }
           break;
         }
       }
@@ -95,6 +93,8 @@ export const questionSlice = createAppSlice({
     }),
 
     unselectChar: create.reducer((state, action) => {
+      state.isDone = false
+
       for (let i = 0; i < state.chars.length; i++) {
         if (state.chars[i].id === action.payload) {
           state.chars[i].selected = false;
@@ -121,36 +121,34 @@ export const questionSlice = createAppSlice({
       state.words = words;
     }),
 
-    // setChar: create.reducer((state, action) => {}),
-    // removeChar: create.reducer((state, action) => {}),
+    clear: create.asyncThunk(async (payload, config) => {
+      const state = config.getState().question
+      config.dispatch(setIsDone(false))
+      config.dispatch(setWords({ wordsLengths: state.wordsLengths }));
+      config.dispatch(
+        setChars(state.chars.map(char => ({...char, selected: false})))
+      );
+    }),
 
-    // create: create.asyncThunk(
-    //   async (data, config) => {
-    //     const res = await BookmarkService.create(
-    //       data.title,
-    //       data.link,
-    //       data.description,
-    //       data.tags
-    //     );
-    //     config.dispatch(getAllTags());
-    //     return res.data;
-    //   },
-    //   {
-    //     pending: state => {
-    //       state.isLoading = true;
-    //     },
-    //     fulfilled: (state, action) => {
-    //       state.bookmarks.unshift(action.payload);
-    //       state.isLoading = false;
-    //     },
-    //     rejected: state => {
-    //       state.isLoading = false;
-    //     },
-    //   }
-    // ),
+    setIsDone: create.reducer((state, action) => {
+      state.isDone = action.payload
+    }),
+    
+    answer: create.asyncThunk(async (payload, config) => {
+      const result = await GameService.answer(payload.topic_id, payload.question_id, payload.words)
+      if (result.data.status === 'correct') {
+        config.dispatch(setIsRightAnswer(true))
+      } else {
+        config.dispatch(setIsRightAnswer(false))
+      }
+    }),
+
+    setIsRightAnswer: create.reducer((state, action) => {
+      state.isRightAnswer = action.payload
+    })
   }),
 });
 
-export const { setWords, setChars, selectChar, unselectChar, fetchData } = questionSlice.actions;
+export const { setWords, setChars, selectChar, unselectChar, fetchData, clear, setIsDone, setIsRightAnswer, answer } = questionSlice.actions;
 
 export default questionSlice.reducer;

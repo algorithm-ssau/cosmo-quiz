@@ -24,7 +24,7 @@ export default function Topic() {
     dispatch(getOneTopic(topic_id));
   }, [dispatch, topic_id]);
 
-  if (isLoading) {
+  if (isLoading && !topic) {
     return <></>;
   }
 
@@ -33,20 +33,21 @@ export default function Topic() {
       <Helmet>
         <title>Тема</title>
       </Helmet>
-      <div className='h-full bg-background'>
+      <div className='h-full'>
         <div className='grid grid-cols-5 gap-5 p-3'>
           {topic.questions?.map((question, index) => {
             return (
               <div key={question._id}>
                 <QuestionCard
+                  topic_id={topic_id}
                   title={question.name}
                   starsCount={getStarsCount(question._id)}
                   desc={question.author}
                   number={index + 1}
-                  isAvailable={index < progress_count}
+                  isAvailable={index <= progress_count}
                   isDone={index < progress_count}
                   onClick={() => {
-                    navigate(`/question/${question._id}`)
+                    navigate(`/topics/${topic_id}/${question._id}`);
                   }}
                 />
               </div>
