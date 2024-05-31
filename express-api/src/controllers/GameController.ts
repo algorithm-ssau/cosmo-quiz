@@ -29,7 +29,7 @@ class GameController {
       const topicId = new Types.ObjectId(topic_id);
       const questionId = new Types.ObjectId(question_id);
 
-      if (!GameService.checkAnswer(words, questionId)) {
+      if (!(await GameService.checkAnswer(words, questionId))) {
         res.status(200).json({
           status: "wrong",
         });

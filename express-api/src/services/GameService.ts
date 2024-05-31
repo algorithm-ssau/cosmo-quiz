@@ -12,7 +12,7 @@ class GameService {
     const correctWords = question.words;
 
     for (let [key, word] of words.entries()) {
-      if (word !== correctWords[key]) {
+      if (word.toLowerCase() !== correctWords[key].toLowerCase()) {
         return false;
       }
     }
