@@ -14,9 +14,11 @@ export default function QuestionCard({
   if (isAvailable) {
     return (
       <div
-        className='grid items-stretch h-48 grid-cols-5 rounded cursor-pointer bg-gradient-to-b from-lightBlue to-darkBlue hover:ring-2 ring-gold'
+        className={`grid items-stretch h-48 grid-cols-5 rounded cursor-pointer bg-gradient-to-b from-lightBlue to-darkBlue  ring-gold ${isDone ? 'cursor-not-allowed ' : 'hover:ring-2'}`}
         onClick={() => {
-          onClick();
+          if (!isDone) {
+            onClick();
+          }
         }}
       >
         <div className='col-span-4 mt-5 ml-5 '>

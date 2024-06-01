@@ -7,10 +7,10 @@ export default function WordList() {
   const words = useSelector(state => state.question.words);
 
   return (
-    <div className='flex flex-col items-center gap-2'>
+    <div className='flex flex-col items-center gap-3'>
       {words.map((word, wordIndex) => {
         return (
-          <div key={wordIndex} className='flex flex-wrap gap-2'>
+          <div key={wordIndex} className='flex flex-wrap gap-1'>
             {word.map((char, charIndex) => {
               return (
                 <CharBox

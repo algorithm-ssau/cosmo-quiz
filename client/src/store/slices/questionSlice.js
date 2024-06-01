@@ -124,6 +124,7 @@ export const questionSlice = createAppSlice({
     clear: create.asyncThunk(async (payload, config) => {
       const state = config.getState().question
       config.dispatch(setIsDone(false))
+      config.dispatch(setIsRightAnswer(false))
       config.dispatch(setWords({ wordsLengths: state.wordsLengths }));
       config.dispatch(
         setChars(state.chars.map(char => ({...char, selected: false})))

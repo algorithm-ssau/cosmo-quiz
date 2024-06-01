@@ -5,7 +5,7 @@ export default function Authorization() {
   return (
     <>
       <Helmet>
-        <title>Авторизация</title>
+        <title>Космическая одиссея</title>
       </Helmet>
       <div className='flex flex-col justify-around w-screen h-screen bg-background'>
         <div>

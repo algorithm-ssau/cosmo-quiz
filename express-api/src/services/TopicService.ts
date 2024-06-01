@@ -11,7 +11,7 @@ class TopicService {
 
   async get(
     id: Types.ObjectId,
-  ): Promise<TTopic | { questions: TQuestion[] } | null> {
+  ): Promise<Omit<TTopic, 'questions'> & { questions: TQuestion[] } | null> {
     const topic = await Topic.findOne({ _id: id })
       .populate<{ questions: TQuestion[] }>("questions")
       .exec();

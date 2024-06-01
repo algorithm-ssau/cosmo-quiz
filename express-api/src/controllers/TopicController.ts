@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import TopicService from "../services/TopicService";
 import { Types, isObjectIdOrHexString } from "mongoose";
 import ApiError from "../errors/ApiError";
+import TQuestion from '../types/Question'
 
 class TopicController {
   async getAll(req: Request, res: Response, next: NextFunction) {
@@ -24,7 +25,19 @@ class TopicController {
       if (!topic) {
         throw ApiError.BadRequest("Неверный id");
       }
-      res.status(200).json(topic);
+      res.status(200).json({
+        _id: topic._id,
+        name: topic.name,
+        questions: topic.questions.map(question => ({
+          _id: question._id,
+          answer: question.answer,
+          author: question.author,
+          name: question.name,
+          question: question.question,
+          answerVideo: question.answerVideo,
+          questionVideo: question.questionVideo,
+        }))
+      });
     } catch (error) {
       next(error);
     }

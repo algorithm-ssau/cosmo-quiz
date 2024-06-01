@@ -2,39 +2,42 @@ import { useDispatch, useSelector } from 'react-redux';
 import QuestionCard from '../components/containers/QuestionCard';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { getOneTopic } from '../store/slices/topicSlice';
+import { fetchUserData } from '../store/slices/authSlice'
 
 export default function Topic() {
   const dispatch = useDispatch();
   const topic = useSelector(state => state.topic.topic);
-  const isLoading = useSelector(state => state.topic.isLoading);
+  const isTopicLoading = useSelector(state => state.topic.isLoading);
   const user = useSelector(state => state.auth.user);
+  const isUserLoading = useSelector(state => state.auth.user.isLoading);
   const navigate = useNavigate();
   const topic_id = useParams().id;
   const progress_count = user.topic_progress?.find(topic => topic.topic_id == topic_id).count;
 
-  function getStarsCount(id) {
+  const getStarsCount = useCallback((id) => {
     return user.question_stars
-      ?.find(topic => topic.topic_id == topic_id)
-      .stars.find(question => question.question_id == id).count;
-  }
+      .find(topic => topic.topic_id == topic_id)
+      .stars.find(question => question.question_id == id)?.count;
+  }, [topic_id, user.question_stars])
 
   useEffect(() => {
     dispatch(getOneTopic(topic_id));
+    dispatch(fetchUserData())
   }, [dispatch, topic_id]);
 
-  if (isLoading && !topic) {
+  if (isTopicLoading || isUserLoading) {
     return <></>;
   }
 
   return (
     <>
       <Helmet>
-        <title>Тема</title>
+        <title>{`Тема - ${topic.name}`}</title>
       </Helmet>
       <div className='h-full'>
-        <div className='grid grid-cols-5 gap-5 p-3'>
+        <div className='grid grid-cols-1 gap-8 p-3 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
           {topic.questions?.map((question, index) => {
             return (
               <div key={question._id}>
