@@ -11,6 +11,8 @@ import { useEffect } from 'react';
 import { answer, clear, fetchData } from '../store/slices/questionSlice';
 import { getOneTopic } from '../store/slices/topicSlice';
 import SuccesAnswer from '../components/containers/SuccesAnswer';
+import { fetchUserData } from '../store/slices/authSlice';
+import { convertToEmbedUrl } from '../utils/common';
 
 export default function Question() {
   const topic_id = useParams().id;
@@ -29,8 +31,10 @@ export default function Question() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    dispatch(clear());
     dispatch(fetchData({ question_id: question_id }));
     dispatch(getOneTopic(topic_id));
+    dispatch(fetchUserData());
   }, [question_id, dispatch, topic_id]);
 
   if (isRightAnswer) {
@@ -47,24 +51,30 @@ export default function Question() {
   return (
     <>
       <Helmet>
-        <title>Вопрос - {question.name}</title>
+        <title>{`Вопрос - ${question.name}`}</title>
       </Helmet>
       <div className='container h-full'>
-        <button
-          className='absolute mt-8 transition-transform duration-100 hover:scale-110'
-          onClick={() => navigate(-1)}
-        >
-          <IoIosArrowBack className='text-white' size={'30px'} />
-        </button>
         <div className='flex justify-center'>
-          <div className='max-w-4xl px-20 py-10'>
+          <div className='w-full max-w-3xl'>
+          <button
+            className='absolute p-2 mt-2 transition-transform duration-100 h-min hover:scale-110'
+            onClick={() => navigate(-1)}
+          >
+            <IoIosArrowBack className='text-white' size={'30px'} />
+          </button>
             <div className='p-4 text-center rounded-t'>
               <p className='text-2xl font-bold text-white '>{question.name}</p>
             </div>
-            <div className='h-20'>
-              <p className='text-white '>Видео</p>
+            <div className='w-full h-96'>
+              <iframe
+                width={'100%'}
+                height={'100%'}
+                id='ytplayer'
+                type='text/html'
+                src={convertToEmbedUrl(question.questionVideo)}
+              />
             </div>
-            <div className='p-8 rounded-b w-100 bg-gold'>
+            <div className='p-6 mx-auto rounded-b bg-gold'>
               <p>{question.question}</p>
             </div>
             <div className='flex justify-center rounded-b'>
@@ -90,14 +100,23 @@ export default function Question() {
               <WordList />
             </div>
             <div className='flex justify-center mx-4 mt-8 mb-4 rounded-b'>
-              <div className='w-96'>
+              <div className='w-full max-w-2xl'>
                 <CharList />
               </div>
             </div>
-            <div className='flex justify-center my-16'>
+            <div className='flex justify-center mt-4'>
               <button
-                className={`px-4 py-2 font-bold text-white rounded bg-accent hover:bg-secondary disabled:opacity-50 disabled:hover:bg-accent disabled:cursor-not-allowed`}
-                onClick={() => dispatch(answer({topic_id, question_id, words: words.map(word => word.map(char => char.char).join(''))}))}
+                className={`px-4 py-2 mb-4 font-bold text-white rounded bg-accent hover:bg-secondary disabled:opacity-50 disabled:hover:bg-accent disabled:cursor-not-allowed`}
+                onClick={() => {
+                  dispatch(clear());
+                  dispatch(
+                    answer({
+                      topic_id,
+                      question_id,
+                      words: words.map(word => word.map(char => char.char).join('')),
+                    })
+                  );
+                }}
                 disabled={!isDone}
               >
                 Подтвердить

@@ -1,4 +1,5 @@
 import AuthService from '../../services/AuthService';
+import UserService from '../../services/UserService'
 import createAppSlice from '../createAppSlice';
 
 export const authSlice = createAppSlice({
@@ -19,7 +20,8 @@ export const authSlice = createAppSlice({
       },
       {
         pending: state => {
-          (state.isLoading = true), (state.errorMessage = '');
+          state.isLoading = true;
+          state.errorMessage = '';
         },
         fulfilled: (state, action) => {
           localStorage.setItem('accessToken', action.payload.accessToken);
@@ -35,6 +37,18 @@ export const authSlice = createAppSlice({
         },
       }
     ),
+
+    fetchUserData: create.asyncThunk(async () => {
+      const res = await UserService.get()
+      return res.data
+    }, {
+      pending: state => {
+        state.errorMessage = '';
+      },
+      fulfilled: (state, action) => {
+        state.user = action.payload.user;
+      }
+    }),
 
     register: create.asyncThunk(
       async (payload, config) => {
@@ -111,6 +125,6 @@ export const authSlice = createAppSlice({
   }),
 });
 
-export const { checkAuth, login, logout, register } = authSlice.actions;
+export const { checkAuth, login, logout, register, fetchUserData } = authSlice.actions;
 
 export default authSlice.reducer;
