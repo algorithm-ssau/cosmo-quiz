@@ -65,7 +65,10 @@ export default function Question() {
             <div className='p-4 text-center rounded-t'>
               <p className='text-2xl font-bold text-white '>{question.name}</p>
             </div>
-            <div className='w-full h-96'>
+            <div className='absolute px-5 rounded-r bg-gold'>
+              <p className='text-black '>{question.author}</p>
+            </div>
+            <div className='w-full mt-3 h-96'>
               <iframe
                 width={'100%'}
                 height={'100%'}
@@ -99,29 +102,30 @@ export default function Question() {
             <div className='m-4'>
               <WordList />
             </div>
-            <div className='flex justify-center mx-4 mt-8 mb-4 rounded-b'>
-              <div className='w-full max-w-2xl'>
-                <CharList />
+            
+              <div className='flex justify-center mx-4 mt-8 mb-4 rounded-b'>
+                <div className='w-full max-w-2xl'>
+                  <CharList />
+                </div>
               </div>
-            </div>
-            <div className='flex justify-center mt-4'>
-              <button
-                className={`px-4 py-2 mb-4 font-bold text-white rounded bg-accent hover:bg-secondary disabled:opacity-50 disabled:hover:bg-accent disabled:cursor-not-allowed`}
-                onClick={() => {
-                  dispatch(clear());
-                  dispatch(
-                    answer({
-                      topic_id,
-                      question_id,
-                      words: words.map(word => word.map(char => char.char).join('')),
-                    })
-                  );
-                }}
-                disabled={!isDone}
-              >
-                Подтвердить
-              </button>
-            </div>
+              <div className='flex justify-center mt-4'>
+                <button
+                  className={`px-4 py-2 mb-4 font-bold text-black rounded bg-gold hover:bg-secondary disabled:opacity-50 disabled:hover:bg-gold disabled:cursor-not-allowed`}
+                  onClick={() => {
+                    dispatch(clear());
+                    dispatch(
+                      answer({
+                        topic_id,
+                        question_id,
+                        words: words.map(word => word.map(char => char.char).join('')),
+                      })
+                    );
+                  }}
+                  disabled={!isDone}
+                >
+                  Подтвердить
+                </button>
+              </div>
           </div>
         </div>
       </div>

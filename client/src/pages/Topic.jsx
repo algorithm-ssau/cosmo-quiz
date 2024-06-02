@@ -37,7 +37,10 @@ export default function Topic() {
         <title>{`Тема - ${topic.name}`}</title>
       </Helmet>
       <div className='h-full'>
-        <div className='grid grid-cols-1 gap-8 p-3 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+        <h1 className='text-4xl text-center text-white'>
+          {topic.name}
+        </h1>
+        <div className='grid grid-cols-1 gap-8 p-3 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
           {topic.questions?.map((question, index) => {
             return (
               <div key={question._id}>

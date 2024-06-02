@@ -123,6 +123,7 @@ export default function LoginWindow() {
                 setEmailDirty(false);
                 setPasswordDirty(false);
                 setUserNameDirty(false);
+                setFormValid(false);
               }}
             >
               Зарегистрироваться
@@ -194,6 +195,7 @@ export default function LoginWindow() {
                 setEmailDirty(false);
                 setPasswordDirty(false);
                 setUserNameDirty(false);
+                setFormValid(false);
               }}
             >
               Войти
