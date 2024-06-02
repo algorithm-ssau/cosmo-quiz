@@ -18,7 +18,8 @@ export default {
       gold: '#FFD700',
       darkBlue: '#0e0159',
       lightBlue: '#88a9fc',
-      lockColor: '#7aa4ff'
+      lockColor: '#7aa4ff',
+      black: '#000000'
     },
 
     borderRadius: {

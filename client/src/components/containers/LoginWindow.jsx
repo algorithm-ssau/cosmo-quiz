@@ -3,6 +3,9 @@ import Button from "../ui/Button";
 import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux'
 import { login, register } from '../../store/slices/authSlice'
+import { BsPerson } from "react-icons/bs";
+import { HiOutlineMail } from "react-icons/hi";
+import { CiLock } from "react-icons/ci";
 export default function LoginWindow() {
   const [content, setContent] = useState(true);
   const [email, setEmail] = useState("");
@@ -78,32 +81,31 @@ export default function LoginWindow() {
       <div className="flex items-stretch place-content-center sm:w-screen">
         <form
           action=""
-          className="grid grid-cols-1 border-2 rounded place-items-center bg-primary"
+          className="grid grid-cols-1 rounded place-items-center"
         >
-          <h1 className="text-xl text-white">Вход</h1>
           <Input
             type="text"
-            label="Логин"
+            placeholder = "E-mail"
             id="email"
             value={email}
             setValue={emailHandler}
             onBlur={blurHandler}
-          ></Input>
+          ><HiOutlineMail className="text-black " size={"25px"}/></Input>
           {emailDirty && emailError && (
-            <span className="mb-2 ml-6 text-base place-self-start text-error">
+            <span className="mb-2 text-base place-self-start text-error">
               {emailError}
             </span>
           )}
           <Input
             type="password"
-            label="Пароль"
+            placeholder="Пароль"
             id="password"
             value={password}
             setValue={passwordHandler}
             onBlur={blurHandler}
-          ></Input>
+          ><CiLock className="text-black " size={"25px"}/></Input>
           {passwordDirty && passwordError && (
-            <div className="mb-4 ml-6 text-base place-self-start text-error">
+            <div className="mb-2 text-base place-self-start text-error">
               {passwordError}
             </div>
           )}
@@ -114,7 +116,7 @@ export default function LoginWindow() {
           <p className="text-base text-white">
             Нет аккаунта?{" "}
             <a
-              className="cursor-pointer text-accent hover:underline"
+              className="cursor-pointer text-gold hover:underline"
               onClick={() => {
                 setContent(false);
                 setEmail("");
@@ -136,45 +138,45 @@ export default function LoginWindow() {
       <div className="flex items-stretch place-content-center">
         <form
           action=""
-          className="grid grid-cols-1 border-2 rounded place-items-center bg-primary"
+          className="grid grid-cols-1 rounded place-items-center "
         >
-          <h1 className="text-xl text-white">Регистрация</h1>
           <Input
             type="text"
-            label="Имя"
             id="userName"
             value={userName}
             setValue={userNameHandler}
             onBlur={blurHandler}
-          ></Input>
+            placeholder="Имя"
+          ><BsPerson className="text-black " size={"25px"}/></Input>
           {userNameDirty && userNameError && (
-            <div className="mb-2 ml-6 place-self-start text-error">
+            <div className="mb-2 place-self-start text-error">
               {userNameError}
             </div>
           )}
           <Input
             type="text"
-            label="Логин"
+            
             id="email"
             value={email}
             setValue={emailHandler}
             onBlur={blurHandler}
-          ></Input>
+            placeholder="E-mail"
+          ><HiOutlineMail className="text-black " size={"25px"}/></Input>
           {emailDirty && emailError && (
-            <div className="mb-2 ml-6 place-self-start text-error">
+            <div className="mb-2 place-self-start text-error">
               {emailError}
             </div>
           )}
           <Input
             type="password"
-            label="Пароль"
             id="password"
             value={password}
             setValue={passwordHandler}
             onBlur={blurHandler}
-          ></Input>
+            placeholder="Пароль"
+          ><CiLock className="text-black " size={"25px"}/></Input>
           {passwordDirty && passwordError && (
-            <div className="mb-4 ml-6 place-self-start text-error">
+            <div className="mb-4 place-self-start text-error">
               {passwordError}
             </div>
           )}
@@ -185,7 +187,7 @@ export default function LoginWindow() {
           <p className="text-base text-white ">
             Уже есть аккаунт?{" "}
             <a
-              className="cursor-pointer text-accent hover:underline"
+              className="cursor-pointer text-gold hover:underline"
               onClick={() => {
                 setContent(true);
                 setEmail("");
