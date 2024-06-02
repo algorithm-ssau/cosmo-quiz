@@ -20,7 +20,7 @@ const SuccesAnswer = ({ video, answer }) => {
           <p>{answer}</p>
         </div>
         <button
-          className={`px-4 py-2 font-bold text-white rounded bg-accent hover:bg-secondary mt-4 mx-auto`}
+          className={`px-4 py-2 font-bold text-black rounded bg-gold hover:bg-secondary mt-4 mx-auto`}
           onClick={() => {
             navigate(-1);
           }}

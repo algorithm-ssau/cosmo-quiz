@@ -7,7 +7,7 @@ export default function Authorization() {
       <Helmet>
         <title>Одиссея Марса</title>
       </Helmet>
-      <div className='flex flex-col w-screen h-screen bg-[url(/background.jpg)] bg-cover'>
+      <div className='flex flex-col w-screen h-screen'>
           <div className='flex place-content-center'>
             <img src="/2.PNG" alt="" width={"300px"}/>
           </div>

@@ -32,9 +32,9 @@ export default function Main() {
   return (
     <>
       <Helmet>
-        <title>Космическая одиссея</title>
+        <title>Одиссея Марса</title>
       </Helmet>
-      <div className='grid h-full grid-cols-1 gap-8 p-3 mt-4 sm:grid-cols-2 lg:grid-cols-4'>
+      <div className='grid h-full grid-cols-1 gap-8 p-3 mt-4 sm:grid-cols-2 lg:grid-cols-4 '>
         {topics.map((topic, index) => {
           return (
             <div key={topic._id}>
