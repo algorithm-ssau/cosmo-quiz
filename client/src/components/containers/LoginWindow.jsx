@@ -3,9 +3,7 @@ import Button from "../ui/Button";
 import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux'
 import { login, register } from '../../store/slices/authSlice'
-import { BsPerson } from "react-icons/bs";
-import { HiOutlineMail } from "react-icons/hi";
-import { CiLock } from "react-icons/ci";
+import { HiOutlineLockClosed, HiOutlineMail, HiOutlineUser } from "react-icons/hi";
 export default function LoginWindow() {
   const [content, setContent] = useState(true);
   const [email, setEmail] = useState("");
@@ -103,7 +101,7 @@ export default function LoginWindow() {
             value={password}
             setValue={passwordHandler}
             onBlur={blurHandler}
-          ><CiLock className="text-black " size={"25px"}/></Input>
+          ><HiOutlineLockClosed className="text-black " size={"25px"}/></Input>
           {passwordDirty && passwordError && (
             <div className="mb-2 text-base place-self-start text-error">
               {passwordError}
@@ -113,7 +111,7 @@ export default function LoginWindow() {
             e.preventDefault()
             dispatch(login({email, password}))
           }}>Войти</Button>
-          <p className="text-base text-white">
+          <p className="mt-4 text-base text-white">
             Нет аккаунта?{" "}
             <a
               className="cursor-pointer text-gold hover:underline"
@@ -147,7 +145,7 @@ export default function LoginWindow() {
             setValue={userNameHandler}
             onBlur={blurHandler}
             placeholder="Имя"
-          ><BsPerson className="text-black " size={"25px"}/></Input>
+          ><HiOutlineUser className="text-black " size={"25px"}/></Input>
           {userNameDirty && userNameError && (
             <div className="mb-2 place-self-start text-error">
               {userNameError}
@@ -174,7 +172,7 @@ export default function LoginWindow() {
             setValue={passwordHandler}
             onBlur={blurHandler}
             placeholder="Пароль"
-          ><CiLock className="text-black " size={"25px"}/></Input>
+          ><HiOutlineLockClosed className="text-black " size={"25px"}/></Input>
           {passwordDirty && passwordError && (
             <div className="mb-4 place-self-start text-error">
               {passwordError}
@@ -184,7 +182,7 @@ export default function LoginWindow() {
             e.preventDefault()
             dispatch(register({name: userName, email, password}))
           }}>Зарегистрироваться</Button>
-          <p className="text-base text-white ">
+          <p className="mt-4 text-base text-white">
             Уже есть аккаунт?{" "}
             <a
               className="cursor-pointer text-gold hover:underline"
