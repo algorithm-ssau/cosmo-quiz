@@ -38,6 +38,8 @@ http://daniladev.ru
 
     ```bash
     npm i
+    ```
+    ```bash
     npm run dev
     ```
 
@@ -45,14 +47,22 @@ http://daniladev.ru
 
     ```bash
     npm i
+    ```
+    ```bash
     npm run dev
     ```
 
   - В директории **python-api**:
     ```bash
     python -m venv .venv
+    ```
+    ```bash
     . .venv/bin/activate
+    ```
+    ```bash
     pip install -r requirements.txt
+    ```
+    ```bash
     gunicorn wsgi:app --bind=0.0.0.0:5002 -w 13
     ```
 
