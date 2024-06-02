@@ -26,7 +26,7 @@ class GameService {
       return null;
     }
     const chars: string[] = (
-      await axios.get('http://localhost:5002/create', {
+      await axios.get(`${process.env.PYTHON_API}/create`, {
         data: { words: words },
       })
     ).data;
