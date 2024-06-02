@@ -1,16 +1,17 @@
 export default function Input(props) {
   return (
-    <div className="w-full px-4 py-0 text-lg">
-      <label htmlFor={props.label} className="ml-2 text-base text-white">
-        {props.label}:
-      </label>
+    <div className="flex items-center w-full m-1 text-lg rounded bg-lightBlue">
+      
+      {props.children}
+      
       <input
         id={props.id}
         type={props.type}
-        className="w-full px-4 py-2 m-1 text-base bg-white rounded ring-solid ring-secondary ring-2 focus:outline-none focus:ring-2 focus:ring-accent focus:border-none"
+        className="w-full m-1 text-base rounded-r focus:outline-none placeholder:text-black bg-lightBlue "
         value={props.value}
         onChange={props.setValue}
         onBlur={props.onBlur}
+        placeholder={props.placeholder}
       />
     </div>
   );
