@@ -77,12 +77,11 @@ export const questionSlice = createAppSlice({
           chars[i].id = action.payload;
           chars[i].char = state.chars[index].char;
           state.chars[index].selected = true;
-          if (i === chars.length - 1) {
-            state.isDone = true
-          }
           break;
         }
       }
+
+      state.isDone = !chars.find(char => char.char === '')
 
       const words = [];
       state.wordsLengths.forEach(length => {

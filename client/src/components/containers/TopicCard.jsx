@@ -3,13 +3,13 @@ import { IoStar } from 'react-icons/io5';
 export default function TopicCard({ index, title, starsCount, onClick }) {
   return (
     <div
-      className='rounded cursor-pointer hover:ring-4 ring-gold'
+      className='rounded cursor-pointer '
       onClick={() => {
         onClick();
       }}
     >
       <div
-        className={`grid items-stretch grid-cols-5 rounded ring-2  ring-secondary ${
+        className={`grid items-stretch grid-cols-5 rounded hover:ring-4 hover:ring-gold transition-[--tw-ring] ${
           index === 0
             ? `bg-[url('/bg-topic1.jpeg')]`
             : index === 1
