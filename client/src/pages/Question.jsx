@@ -13,6 +13,7 @@ import { getOneTopic } from '../store/slices/topicSlice';
 import SuccesAnswer from '../components/containers/SuccesAnswer';
 import { fetchUserData } from '../store/slices/authSlice';
 import { convertToEmbedUrl } from '../utils/common';
+import Button from '../components/ui/Button'
 
 export default function Question() {
   const topic_id = useParams().id;
@@ -63,7 +64,7 @@ export default function Question() {
             <IoIosArrowBack className='text-white' size={'30px'} />
           </button>
             <div className='p-4 text-center rounded-t'>
-              <p className='text-2xl font-bold text-white '>{question.name}</p>
+              <p className='text-3xl font-bold text-white '>{question.name}</p>
             </div>
             <div className='absolute px-5 rounded-r bg-gold'>
               <p className='text-black '>{question.author}</p>
@@ -108,9 +109,8 @@ export default function Question() {
                   <CharList />
                 </div>
               </div>
-              <div className='flex justify-center mt-4'>
-                <button
-                  className={`px-4 py-2 mb-4 font-bold text-black rounded bg-gold hover:bg-secondary disabled:opacity-50 disabled:hover:bg-gold disabled:cursor-not-allowed`}
+              <div className='flex justify-center mt-4 mb-8'>
+                <Button
                   onClick={() => {
                     dispatch(clear());
                     dispatch(
@@ -121,10 +121,10 @@ export default function Question() {
                       })
                     );
                   }}
-                  disabled={!isDone}
+                  isActive={isDone}
                 >
                   Подтвердить
-                </button>
+                </Button>
               </div>
           </div>
         </div>
