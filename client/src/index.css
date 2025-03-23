@@ -5,7 +5,7 @@
 @layer base {
   body {
     @apply text-primary;
-    @apply bg-[url(/background.jpg)] bg-cover;
+    @apply bg-[url(/background.jpg)] bg-center bg-no-repeat bg-fixed bg-origin-content bg-cover;
     @apply text-base;
   }
 }

@@ -24,7 +24,7 @@ http.interceptors.response.use(
           })
           .post('api/auth/refresh');
         localStorage.setItem('accessToken', response.data.accessToken);
-        return http.request(originalRequest);
+        return await http.request(originalRequest);
       } catch (error) {
         return;
       }

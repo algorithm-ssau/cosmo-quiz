@@ -92,15 +92,14 @@ export const questionSlice = createAppSlice({
           chars[i].char = state.chars[index].char;
           chars[i].right = false
           state.chars[index].selected = true;
-          if (i === chars.length - 1) {
-            state.isDone = true
-          }
           break;
         }
       }
       if (!chars.some(c => c.char === '')) {
         state.isDone = true;
       }
+
+      state.isDone = !chars.find(char => char.char === '')
 
       const words = [];
       state.wordsLengths.forEach(length => {
