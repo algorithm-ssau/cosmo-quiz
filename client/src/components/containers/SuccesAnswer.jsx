@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { convertToEmbedUrl } from '../../utils/common';
+
 
 const SuccesAnswer = ({ video, answer }) => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const SuccesAnswer = ({ video, answer }) => {
             height={'100%'}
             id='ytplayer'
             type='text/html'
-            src={convertToEmbedUrl(video)}
+            src={video}
           />
         </div>
         <div className='p-6 mx-auto rounded-b bg-gold'>

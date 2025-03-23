@@ -26,11 +26,18 @@ export type TAnswerBody = {
   stars_count?: number;
 };
 
+export type TUseHintBody = {
+  topic_id?: string;
+  question_id?: string;
+};
+
 export type TGetQuestionDataBody = {
   question_id?: string;
 };
 
 export type TGetGameData = {
   wordsLengths: number[],
-  chars: { id: number, char: string, selected: boolean }[]
+  chars: { id: number, char: string, selected: boolean }[],
+  rightChars: string[]
+  countClue: number
 }

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { IoStar } from 'react-icons/io5';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
 import { IoLockClosed } from 'react-icons/io5';
@@ -5,12 +6,15 @@ import { IoLockClosed } from 'react-icons/io5';
 export default function QuestionCard({
   title,
   starsCount,
-  desc,
+  author,
+  fullAuthor,
+  whoAuthor,
   number,
   isDone,
   isAvailable,
   onClick,
 }) {
+  const [flipped, setFlipped] = useState(false);
   if (isAvailable) {
     return (
       <div
@@ -41,7 +45,7 @@ export default function QuestionCard({
               <div className='flex'>
                 <IoStar className='place-self-center text-gold' size={'30px'} />
                 <IoStar className='place-self-center text-gold' size={'30px'} />
-                <IoStar className='place-self-center text-gold' size={'30px'} />
+                <IoStar className='place-self-center text-darkBlue' size={'30px'} />
               </div>
             )}
             {starsCount === 3 && (
@@ -54,7 +58,7 @@ export default function QuestionCard({
             {isDone && <IoIosCheckmarkCircle className='ml-2 text-white' size={'30px'} />}
           </div>
           <h1 className='mt-2 text-2xl text-white'>{title}</h1>
-          <p className=' text-grey'>{desc}</p>
+          <p className=' text-grey'>{author}</p>
         </div>
         <div className=''>
           <p className='mt-2 mr-4 text-5xl text-white opacity-50 text-end'>{number}</p>
@@ -72,7 +76,7 @@ export default function QuestionCard({
               <IoStar className='place-self-center text-darkBlue' size={'30px'} />
             </div>
             <h1 className='mt-2 text-2xl text-white'>{title}</h1>
-            <p className=' text-grey'>{desc}</p>
+            <p className=' text-grey'>{author}</p>
           </div>
           <div className=''>
             <p className='mt-2 mr-4 text-5xl text-white opacity-50 text-end'>{number}</p>

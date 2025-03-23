@@ -1,8 +1,16 @@
 import http from './AxiosService';
 
 class GameService {
-  async answer(topic_id, question_id, words) {
-    return http.post('/api/game/answer', { topic_id, question_id, words });
+  async answer(topic_id, question_id, words, stars_count) {
+    return http.post('/api/game/answer', { topic_id, question_id, words, stars_count });
+  }
+
+  async failanswer(topic_id, question_id) {
+    return http.post('/api/game/failAnswer', { topic_id, question_id});
+  }
+
+  async useHint(topic_id, question_id) {
+    return http.post('/api/game/hint', { topic_id, question_id});
   }
 
 	async getGameData(question_id) {

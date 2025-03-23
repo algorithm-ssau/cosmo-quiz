@@ -3,7 +3,7 @@ import { Types, isObjectIdOrHexString } from "mongoose";
 import ApiError from "../errors/ApiError";
 import QuestionService from "../services/QuestionService";
 import TypedBodyRequest from "../utils/TypedRequest";
-import { TAnswerBody, TGetQuestionDataBody } from "../types/Common";
+import { TAnswerBody, TGetQuestionDataBody, TUseHintBody } from "../types/Common";
 import getPayloadFromHeader from "../utils/GetPayloadFromHeader";
 import UserService from "../services/UserService";
 import GameService from "../services/GameService";
@@ -35,13 +35,12 @@ class GameController {
         });
         return;
       }
-
       const userPayload = getPayloadFromHeader(req);
 			const answerRes = await UserService.correctAnswer(
 				userPayload.id,
 				topicId,
 				questionId,
-				stars_count || 3,
+				stars_count ?? 0,
 			)
       if (answerRes === null) {
         throw ApiError.BadRequest("Неверные данные");
@@ -56,6 +55,85 @@ class GameController {
       next(error);
     }
   }
+
+  async failAnswer(
+    req: TypedBodyRequest<TAnswerBody>,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { topic_id, question_id} = req.body;
+      if (!topic_id || !question_id) {
+        throw ApiError.BadRequest("Неверные данные");
+      }
+
+      if (
+        !isObjectIdOrHexString(topic_id) ||
+        !isObjectIdOrHexString(question_id)
+      ) {
+        throw ApiError.BadRequest("Неверные данные");
+      }
+      const topicId = new Types.ObjectId(topic_id);
+      const questionId = new Types.ObjectId(question_id);
+
+      const userPayload = getPayloadFromHeader(req);
+			const answerRes = await UserService.correctAnswer(
+				userPayload.id,
+				topicId,
+				questionId,
+				0,
+			)
+      if (answerRes === null) {
+        throw ApiError.BadRequest("Неверные данные");
+      } else if (answerRes === false) {
+				throw ApiError.BadRequest("Вы уже выполнили это задание");
+			}
+
+      res.status(200).json({
+        status: "correct",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async useHint(
+    req: TypedBodyRequest<TUseHintBody>,
+    res: Response,
+    next: NextFunction,){
+      try {
+        const { topic_id, question_id} = req.body;
+        if (!topic_id || !question_id) {
+          throw ApiError.BadRequest("Неверные данные");
+        }
+  
+        if (
+          !isObjectIdOrHexString(topic_id) ||
+          !isObjectIdOrHexString(question_id)
+        ) {
+          throw ApiError.BadRequest("Неверные данные");
+        }
+        const topicId = new Types.ObjectId(topic_id);
+        const questionId = new Types.ObjectId(question_id);
+        const userPayload = getPayloadFromHeader(req);
+        const hintRes = await UserService.useHint(
+          userPayload.id,
+          topicId,
+          questionId,
+        )
+        if (hintRes === null) {
+          throw ApiError.BadRequest("Неверные данныеtttt");
+        } else if (hintRes === false) {
+          throw ApiError.BadRequest("Вы уже выполнили это задание");
+        }
+
+        res.status(200).json({
+          status: "correct",
+        });
+      }catch(error){
+        next(error);
+      }
+    }
 
   async getQuestionData(
     req: TypedBodyRequest<TGetQuestionDataBody>,

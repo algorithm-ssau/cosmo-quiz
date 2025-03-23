@@ -15,6 +15,7 @@ export default {
       grey: '#A4B3B6',
       white: '#FFFFFF',
       error: 'rgb(255, 87, 87)',
+      green: '#4ce65e',
       gold: '#FFD700',
       darkBlue: '#0e0159',
       lightBlue: '#88a9fc',
@@ -35,5 +36,22 @@ export default {
       lg: '1024px',
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        ".perspective": {
+          perspective: "1000px",
+        },
+        ".transform-style-3d": {
+          transformStyle: "preserve-3d",
+        },
+        ".backface-hidden": {
+          backfaceVisibility: "hidden",
+        },
+        ".rotate-y-180": {
+          transform: "rotateY(180deg)",
+        },
+      });
+    },
+  ],
 };

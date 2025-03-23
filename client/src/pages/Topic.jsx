@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useState } from "react";
 import QuestionCard from '../components/containers/QuestionCard';
+import FlipQCard from '../components/containers/FlipQCard';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router';
 import { useCallback, useEffect } from 'react';
@@ -7,6 +9,7 @@ import { getOneTopic } from '../store/slices/topicSlice';
 import { fetchUserData } from '../store/slices/authSlice'
 
 export default function Topic() {
+  const [flippedCard, setFlippedCard] = useState(null);
   const dispatch = useDispatch();
   const topic = useSelector(state => state.topic.topic);
   const isTopicLoading = useSelector(state => state.topic.isLoading);
@@ -30,7 +33,6 @@ export default function Topic() {
   if (isTopicLoading || isUserLoading) {
     return <></>;
   }
-
   return (
     <>
       <Helmet>
@@ -43,20 +45,25 @@ export default function Topic() {
         <div className='grid grid-cols-1 gap-8 p-3 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
           {topic.questions?.map((question, index) => {
             return (
-              <div key={question._id}>
-                <QuestionCard
+              
+                <FlipQCard
+                  key = {index}
                   topic_id={topic_id}
                   title={question.name}
                   starsCount={getStarsCount(question._id)}
-                  desc={question.author}
+                  author={question.author}
+                  fullAuthor={question.fullAuthor}
+                  whoAuthor={question.whoAuthor}
                   number={index + 1}
+                  isFlipped={flippedCard === index}
+                  setFlippedCard={setFlippedCard}
                   isAvailable={index <= progress_count}
                   isDone={index < progress_count}
                   onClick={() => {
                     navigate(`/topics/${topic_id}/${question._id}`);
                   }}
                 />
-              </div>
+              
             );
           })}
         </div>
