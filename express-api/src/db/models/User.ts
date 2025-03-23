@@ -22,6 +22,12 @@ const UserSchema = new Schema<TUser, Model<TUser>>({
       stars: [{ question_id: Schema.Types.ObjectId, count: Number }],
     },
   ],
+  used_hints: [
+    {
+      topic_id: Schema.Types.ObjectId,
+      hints: [{ question_id: Schema.Types.ObjectId, count: Number }],
+    },
+  ],
 });
 
 const User = model<TUser, Model<TUser>>("User", UserSchema);

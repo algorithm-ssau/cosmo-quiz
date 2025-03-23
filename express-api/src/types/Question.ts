@@ -5,6 +5,8 @@ type TQuestion = {
   name: string;
   words: string[];
   author: string;
+  fullAuthor: string;
+  whoAuthor: string;
   question: string;
   answer: string;
   questionVideo?: string;

@@ -21,6 +21,7 @@ class UserController {
           email: user.email,
           topic_progress: user.topic_progress,
           question_stars: user.question_stars,
+          used_hints: user.used_hints,
         },
       });
     } catch (error) {

@@ -14,7 +14,7 @@ const SuccesAnswer = ({ video, answer }) => {
             height={'100%'}
             id='ytplayer'
             type='text/html'
-            src={convertToEmbedUrl(video)}
+            src={video}
           />
         </div>
         <div className='p-6 mx-auto mb-8 rounded-b bg-gold'>

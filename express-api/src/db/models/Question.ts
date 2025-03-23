@@ -7,6 +7,8 @@ export const QuestionSchema = new Schema<TQuestion, Model<TQuestion>>({
     required: true,
   },
   author: String,
+  fullAuthor: String,
+  whoAuthor: String,
   words: {
     type: [String],
     required: true,

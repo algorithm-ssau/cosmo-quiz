@@ -32,6 +32,8 @@ class TopicController {
           _id: question._id,
           answer: question.answer,
           author: question.author,
+          fullAuthor: question.fullAuthor,
+          whoAuthor: question.whoAuthor,
           name: question.name,
           question: question.question,
           answerVideo: question.answerVideo,

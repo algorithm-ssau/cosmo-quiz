@@ -37,6 +37,17 @@ class UserService {
         }),
       };
     });
+    const used_hints = (await Topic.find()).map((topic) => {
+      return{
+        topic_id: topic._id,
+        hints: topic.questions.map((question) => {
+          return{
+            question_id: question._id,
+            count:0,
+          };
+        }),
+      };
+    });
     // Создаем и сохраняем нового пользователя
     const user = new User({
       name,
@@ -44,6 +55,7 @@ class UserService {
       password: hashedPassword,
       topic_progress: topic_progress,
       question_stars: question_stars,
+      used_hints: used_hints,
     });
     await user.save();
 
@@ -91,7 +103,7 @@ class UserService {
         (item) =>
           item.topic_id.equals(topic_id) &&
           item.stars.some(
-            (star) => star.question_id.equals(question_id) && star.count == 0,
+            (star) => star.question_id.equals(question_id),
           ),
       )
     ) {
@@ -142,6 +154,54 @@ class UserService {
       return null;
     }
 
+    return true;
+  }
+
+  async useHint(user_id: Types.ObjectId, topic_id: Types.ObjectId, question_id: Types.ObjectId,): Promise<boolean|null>{
+    const user = await User.findOne({ _id: user_id }).exec();
+    if (!user) {
+      return null;
+    }
+    let newUsedHints;
+    if(
+      user.used_hints.some((item) =>
+        item.topic_id.equals(topic_id) &&
+        item.hints.some(
+          (hint) => hint.question_id.equals(question_id) && hint.count<2,
+        ),
+    )){
+      newUsedHints = user.used_hints.map((item) => {
+        if (item.topic_id.equals(topic_id)) {
+          return {
+            topic_id: item.topic_id,
+            hints: item.hints.map((hint) => {
+              if (hint.question_id.equals(question_id)) {
+                return {
+                  question_id: question_id,
+                  count: hint.count + 1,
+                };
+              } else {
+                return hint;
+              }
+            }),
+          };
+        } else {
+          return item;
+        }
+      });
+    }else{
+      return false;
+    }
+    
+    let res;
+    if (newUsedHints) {
+      res = await User.findByIdAndUpdate(user_id, {
+        used_hints: newUsedHints
+      }).exec();
+    }
+    if (!res) {
+      return null;
+    }
     return true;
   }
 }
