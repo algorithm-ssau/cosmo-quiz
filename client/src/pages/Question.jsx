@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import CharList from '../components/containers/CharList';
 import WordList from '../components/containers/WordList';
 import FailPopup from '../components/containers/FailPopup';
+import SuccesPopup from '../components/containers/SuccesPopup';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosRocket } from 'react-icons/io';
 import { IoBulb } from 'react-icons/io5';
@@ -9,11 +10,10 @@ import { PiEraserFill } from 'react-icons/pi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { useEffect, useRef } from 'react';
-import { answer, clear, fetchData, fillRightChar, unselectChar, hint, removeStar, failAnswer, setIsRightAnswer} from '../store/slices/questionSlice';
-import { getOneTopic } from '../store/slices/topicSlice';
+import { answer, clear, fetchData, fillRightChar, unselectChar, hint, removeStar} from '../store/slices/questionSlice';
+import { getOneTopic, sendPrize } from '../store/slices/topicSlice';
 import SuccesAnswer from '../components/containers/SuccesAnswer';
 import { fetchUserData } from '../store/slices/authSlice';
-import { convertToEmbedUrl } from '../utils/common';
 import Button from '../components/ui/Button'
 
 export default function Question() {
@@ -24,15 +24,21 @@ export default function Question() {
   const isTopicLoading = useSelector(state => state.topic.isLoading);
   const isQuestionLoading = useSelector(state => state.question.isLoading);
   const topic = useSelector(state => state.topic.topic);
+  const endTopic = useSelector(state => state.topic.endTopic);
   const question = topic.questions?.find(question => question._id === question_id);
   //const rightWords = topic.questions?.find(question => question._id === question_id).words;
   const isDone = useSelector(state => state.question.isDone);
   const isRightAnswer = useSelector(state => state.question.isRightAnswer);
   const stars = useSelector(state => state.question.stars);
+  const isFailAnswer = useSelector(state => state.question.isFailAnswer);
   const countClue = useSelector(state => state.question.countClue);
-  const used_hints = user.used_hints?.find(topic => topic.topic_id == topic_id).hints.find(hint => hint.question_id == question_id)?.count;
+  const thereClue = useSelector(state => state.question.thereClue);
+  const used_hints = user.used_hints?.find(topic => topic.topic_id == topic_id)?.hints.find(hint => hint.question_id == question_id)?.count;
+  const topicLength = user.question_stars?.find(topic => topic.topic_id == topic_id)?.stars.length
+  const progressCount = user.topic_progress?.find(topic => topic.topic_id == topic_id)?.count;
+  
 
-
+  const index =  topic.questions?.findIndex(question => question._id == question_id);
   const words = useSelector(state => state.question.words);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -58,7 +64,7 @@ export default function Question() {
     }, 200);
   }, [question_id, dispatch, topic_id]);
 
-  if (isRightAnswer) {
+  if (index+1 == progressCount) {
     return (
       <div className='container'>
         <SuccesAnswer video={question.answerVideo} answer={question.answer} />
@@ -66,27 +72,30 @@ export default function Question() {
     );
   }
 
-  if (isQuestionLoading || isTopicLoading) {
+  /*if (isQuestionLoading || isTopicLoading) {
     return <></>;
-  }
+  }*/
   return (
     <>
       <Helmet>
         <title>{`Вопрос - ${question.name}`}</title>
       </Helmet>
-      <div className='container h-full'>
-        {stars==0 && <FailPopup 
-        showAnswer = {()=>{
-          dispatch(
-            failAnswer({
-              topic_id,
-              question_id,
-            })
-          );
-          dispatch(setIsRightAnswer(true));
-        }}
-        back = {() => dispatch(failAnswer({topic_id, question_id}))}
+      <div className='w-screen h-full md:container'>
+        {isFailAnswer && <FailPopup 
+        videoAnswer={question.answerVideo}
+        stars={stars}
+        isLast={topicLength == progressCount}
+        endTopic = {endTopic}
+        isTopicLoading = {isTopicLoading}
+        sendPrize={()=>dispatch(sendPrize({topic_id}))}
         />}
+        {isRightAnswer && <SuccesPopup 
+        videoAnswer={question.answerVideo} 
+        stars={stars} 
+        isLast={topicLength == progressCount}
+        endTopic = {endTopic}
+        isTopicLoading = {isTopicLoading}
+        sendPrize={()=>dispatch(sendPrize({topic_id}))}/>}
         <div className='flex justify-center'>
           <div className='w-full max-w-3xl'>
           <button
@@ -96,12 +105,18 @@ export default function Question() {
             <IoIosArrowBack className='text-white' size={'30px'} />
           </button>
             <div className='p-4 text-center rounded-t'>
-              <p className='text-3xl font-bold text-white '>{question.name}</p>
+              <p className='text-xl font-bold text-white md:text-3xl'>{question.name}</p>
             </div>
             <div className='absolute px-5 rounded-r bg-gold'>
-              <p className='text-black '>{question.author}</p>
+              <p className='text-black '>{(() => {
+                const parts = question.author.split(" ");
+                return parts.length === 3
+                  ? `${parts[0]} ${parts[1][0]}. ${parts[2][0]}.`
+                  : `${parts[0]} ${parts[1][0]}.`;
+                })()}
+              </p>
             </div>
-            <div className='w-full mt-3 h-96'>
+            <div className='w-full mt-3  max-w-[640px] aspect-video md:max-w-3xl'>
               <iframe
                 width={'100%'}
                 height={'100%'}
@@ -110,7 +125,7 @@ export default function Question() {
                 src={question.questionVideo}
               />
             </div>
-            <div className='p-6 mx-auto rounded-b bg-gold'>
+            <div className='px-4 py-6 mx-auto rounded-b bg-gold md:p-6'>
               <p>{question.question}</p>
             </div>
             <div className='flex justify-center rounded-b'>
@@ -171,6 +186,10 @@ export default function Question() {
                         stars,
                       })
                     );
+                    if(thereClue){
+                      dispatch(fillRightChar());
+                      dispatch(hint({topic_id, question_id}));
+                    }
                   }}
                   isActive={isDone}
                 >

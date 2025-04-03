@@ -3,6 +3,7 @@ import User from "../db/models/User";
 import bcrypt from "bcryptjs";
 import { Types } from "mongoose";
 import Topic from "../db/models/Topic";
+import { sendCompletionEmail } from '../services/PrizeService';
 
 class UserService {
   async register(
@@ -149,6 +150,27 @@ class UserService {
         topic_progress: newTopicProgress,
         question_stars: newQuestionStars
       }).exec();
+      const updUser = await User.findOne({ _id: user_id }).exec();
+      if (!updUser) {
+        return null;
+      }
+      const stars = updUser.question_stars?.reduce(
+        (acc, topic) => acc + topic.stars.reduce((acc, question) => acc + question.count, 0),
+        0
+      );
+      const topicStars = updUser.question_stars?.find(topic => topic.topic_id.equals(topic_id))
+      ?.stars?.reduce((acc, question) => acc + question.count, 0)??0;
+      const topicProgress = updUser.topic_progress?.find(topic => topic.topic_id.equals(topic_id))?.count
+      const topicLength = updUser.question_stars?.find(topic => topic.topic_id.equals(topic_id))?.stars.length
+      console.log(topicProgress);
+      console.log(topicLength);
+      if(topicProgress == topicLength){
+        const topic = await Topic.findOne({ _id: topic_id }).exec();
+        if (!topic) {
+          return null;
+        }
+        await sendCompletionEmail(updUser.email, topic.name, updUser.name, topicStars);
+      }
     }
     if (!res) {
       return null;

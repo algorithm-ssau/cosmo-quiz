@@ -180,6 +180,24 @@ class GameController {
       next(error)
     }
   }
+
+  async getAnswer(req: Request, res: Response, next: NextFunction) {
+    try {
+      const question_id_param = req.params.id;
+      if (!isObjectIdOrHexString(question_id_param)) {
+        throw ApiError.BadRequest("Неверный id");
+      }
+      const question_id = new Types.ObjectId(question_id_param);
+
+      const result = await GameService.getAnswer(question_id)
+      if (!result) {
+        throw ApiError.BadRequest("Неверные данные");
+      }
+      res.status(200).json(result)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 export default new GameController();

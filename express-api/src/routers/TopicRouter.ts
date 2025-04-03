@@ -6,4 +6,5 @@ const router = Router();
 router.get("/", TopicController.getAll);
 router.get("/:id", TopicController.get);
 
+
 export default router;

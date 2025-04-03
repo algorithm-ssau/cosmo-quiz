@@ -1,6 +1,6 @@
 export default function Input(props) {
   return (
-    <div className="flex items-center w-full px-3 py-2 m-1 text-lg rounded bg-lightBlue">
+    <div className="relative flex items-center w-full px-3 py-2 mt-2 text-lg rounded bg-lightBlue">
       
       {props.children}
       
@@ -12,6 +12,7 @@ export default function Input(props) {
         onChange={props.setValue}
         onBlur={props.onBlur}
         placeholder={props.placeholder}
+        onFocus={props.onFocus}
       />
     </div>
   );

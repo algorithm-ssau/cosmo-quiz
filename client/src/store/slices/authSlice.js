@@ -76,6 +76,10 @@ export const authSlice = createAppSlice({
       }
     ),
 
+    clearError: create.reducer(state => {
+      state.errorMessage = '';
+    }),
+
     login: create.asyncThunk(
       async (payload, config) => {
         try {
@@ -125,6 +129,6 @@ export const authSlice = createAppSlice({
   }),
 });
 
-export const { checkAuth, login, logout, register, fetchUserData } = authSlice.actions;
+export const { checkAuth, login, logout, register, fetchUserData, clearError } = authSlice.actions;
 
 export default authSlice.reducer;

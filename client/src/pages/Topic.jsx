@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from "react";
 import QuestionCard from '../components/containers/QuestionCard';
-import FlipQCard from '../components/containers/FlipQCard';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router';
 import { useCallback, useEffect } from 'react';
@@ -27,7 +26,7 @@ export default function Topic() {
 
   useEffect(() => {
     dispatch(getOneTopic(topic_id));
-    dispatch(fetchUserData())
+    dispatch(fetchUserData());
   }, [dispatch, topic_id]);
 
   if (isTopicLoading || isUserLoading) {
@@ -39,25 +38,24 @@ export default function Topic() {
         <title>{`Тема - ${topic.name}`}</title>
       </Helmet>
       <div className='h-full'>
-        <h1 className='text-3xl font-bold text-center text-white'>
+        <h1 className='mt-4 text-2xl font-bold text-center text-white md:text-3xl'>
           {topic.name}
         </h1>
-        <div className='grid grid-cols-1 gap-8 p-3 mt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
+        <div className='grid grid-cols-1 gap-8 p-3 mt-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
           {topic.questions?.map((question, index) => {
             return (
               
-                <FlipQCard
+                <QuestionCard
                   key = {index}
                   topic_id={topic_id}
                   title={question.name}
                   starsCount={getStarsCount(question._id)}
                   author={question.author}
-                  fullAuthor={question.fullAuthor}
                   whoAuthor={question.whoAuthor}
                   number={index + 1}
                   isFlipped={flippedCard === index}
                   setFlippedCard={setFlippedCard}
-                  isAvailable={index <= progress_count}
+                  isAvailable={index<progress_count+1}
                   isDone={index < progress_count}
                   onClick={() => {
                     navigate(`/topics/${topic_id}/${question._id}`);

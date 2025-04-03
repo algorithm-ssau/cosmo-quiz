@@ -35,6 +35,10 @@ export type TGetQuestionDataBody = {
   question_id?: string;
 };
 
+export type TSendPrizeBody = {
+  topic_id?: string;
+};
+
 export type TGetGameData = {
   wordsLengths: number[],
   chars: { id: number, char: string, selected: boolean }[],

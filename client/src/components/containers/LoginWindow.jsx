@@ -1,9 +1,9 @@
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { login, register } from '../../store/slices/authSlice';
-import { HiOutlineLockClosed, HiOutlineMail, HiOutlineUser } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, register, clearError } from '../../store/slices/authSlice';
+import { HiOutlineLockClosed, HiOutlineMail, HiOutlineUser, HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 export default function LoginWindow() {
   const [content, setContent] = useState(true);
   const [email, setEmail] = useState('');
@@ -16,7 +16,9 @@ export default function LoginWindow() {
   const [passwordError, setPasswordError] = useState('');
   const [userNameError, setUserNameError] = useState('');
   const [formValid, setFormValid] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const errorMessage = useSelector(state => state.auth.errorMessage);
+  
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -51,7 +53,10 @@ export default function LoginWindow() {
     if (!val) {
       setPasswordDirty(true)
       setPasswordError('Введите пароль');
-    } else {
+    }else if(val.length<4){
+      setPasswordDirty(true)
+      setPasswordError('Введите не менее 4 знаков');
+    }else {
       setPasswordDirty(false)
       setPasswordError('');
     }
@@ -61,6 +66,9 @@ export default function LoginWindow() {
     if (!val) {
       setUserNameDirty(true)
       setUserNameError('Введите имя');
+    }else if(val.length<2){
+      setUserNameDirty(true)
+      setUserNameError('Введите не менее 2 знаков');
     } else {
       setUserNameDirty(false)
       setUserNameError('');
@@ -92,6 +100,7 @@ export default function LoginWindow() {
             value={email}
             setValue={e => emailHandler(e.target.value)}
             onBlur={blurHandler}
+            onFocus={()=>dispatch(clearError())} 
           >
             <HiOutlineMail className='text-black ' size={'25px'} />
           </Input>
@@ -99,17 +108,28 @@ export default function LoginWindow() {
             <span className='mb-2 text-base place-self-start text-error'>{emailError}</span>
           )}
           <Input
-            type='password'
+            type={showPassword ? 'text' : 'password'}
             placeholder='Пароль'
             id='password'
             value={password}
             setValue={e => passwordHandler(e.target.value)}
             onBlur={blurHandler}
+            onFocus={()=>dispatch(clearError())} 
           >
             <HiOutlineLockClosed className='text-black ' size={'25px'} />
+            <button
+              type="button"
+              className="absolute text-black transform -translate-y-1/2 right-3 top-1/2"
+              onClick={() => setShowPassword(prev => !prev)}
+            >
+              {showPassword ? <HiOutlineEye size={25} /> : <HiOutlineEyeOff size={25} />}
+            </button>
           </Input>
           {passwordDirty && passwordError && (
             <div className='mb-2 text-base place-self-start text-error'>{passwordError}</div>
+          )}
+          {errorMessage && (
+            <span className='mb-2 text-base place-self-start text-error'>{errorMessage}</span>
           )}
           <div className='mt-4'>
           <Button
@@ -130,8 +150,11 @@ export default function LoginWindow() {
               onClick={() => {
                 setFormValid(false);
                 setEmail('');
+                setEmailError('');
                 setPassword('');
+                setPasswordError('');
                 setUserName('');
+                setUserNameError('');
                 setUserNameDirty(true)
                 setEmailDirty(true)
                 setPasswordDirty(true)
@@ -147,7 +170,7 @@ export default function LoginWindow() {
   } else {
     return (
       <div className='flex items-stretch place-content-center'>
-        <form action='' className='grid grid-cols-1 rounded place-items-center '>
+        <form action='' className='grid grid-cols-1 rounded place-items-center'>
           <Input
             type='text'
             id='userName'
@@ -155,11 +178,12 @@ export default function LoginWindow() {
             setValue={e => userNameHandler(e.target.value)}
             onBlur={blurHandler}
             placeholder='Имя'
+            onFocus={()=>dispatch(clearError())} 
           >
             <HiOutlineUser className='text-black ' size={'25px'} />
           </Input>
           {userNameDirty && userNameError && (
-            <div className='mb-2 place-self-start text-error'>{userNameError}</div>
+            <div className='mb-0 place-self-start text-error'>{userNameError}</div>
           )}
           <Input
             type='email'
@@ -168,26 +192,38 @@ export default function LoginWindow() {
             setValue={e => emailHandler(e.target.value)}
             onBlur={blurHandler}
             placeholder='E-mail'
+            onFocus={()=>dispatch(clearError())} 
           >
             <HiOutlineMail className='text-black ' size={'25px'} />
           </Input>
           {emailDirty && emailError && (
-            <div className='mb-2 place-self-start text-error'>{emailError}</div>
+            <div className='mb-0 place-self-start text-error'>{emailError}</div>
+          )}
+          {errorMessage && (
+            <span className='mb-0 text-base place-self-start text-error'>{errorMessage}</span>
           )}
           <Input
-            type='password'
+            type={showPassword ? 'text' : 'password'}
             id='password'
             value={password}
             setValue={e => passwordHandler(e.target.value)}
             onBlur={blurHandler}
             placeholder='Пароль'
+            onFocus={()=>dispatch(clearError())} 
           >
             <HiOutlineLockClosed className='text-black ' size={'25px'} />
+            <button
+              type="button"
+              className="absolute text-black transform -translate-y-1/2 right-3 top-1/2"
+              onClick={() => setShowPassword(prev => !prev)}
+            >
+              {showPassword ? <HiOutlineEye size={25} /> : <HiOutlineEyeOff size={25} />}
+            </button>
           </Input>
           {passwordDirty && passwordError && (
-            <div className='mb-4 place-self-start text-error'>{passwordError}</div>
+            <div className='mb-0 place-self-start text-error'>{passwordError}</div>
           )}
-          <div className='mt-4'>
+          <div className='mt-2'>
           <Button
             isActive={formValid}
             onClick={e => {
@@ -199,6 +235,7 @@ export default function LoginWindow() {
             Зарегистрироваться
           </Button>
             </div>
+          <p className='mt-2 text-center text-white'>На указанный E-mail будут отправлены <br /> награды за прохождение тем</p>
           <p className='mt-4 text-base text-white'>
             Уже есть аккаунт?{' '}
             <button
@@ -206,8 +243,11 @@ export default function LoginWindow() {
               onClick={() => {
                 setFormValid(false);
                 setEmail('');
+                setEmailError('');
                 setPassword('');
+                setPasswordError('');
                 setUserName('');
+                setUserNameError('');
                 setEmailDirty(true)
                 setPasswordDirty(true)
                 setContent(true);

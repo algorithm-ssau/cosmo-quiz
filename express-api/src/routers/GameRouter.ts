@@ -8,6 +8,7 @@ router.post("/failAnswer", GameController.failAnswer);
 router.post("/hint", GameController.useHint)
 router.post("/lengths", GameController.getQuestionData);
 router.get('/:id', GameController.getGameData)
+router.get('/answer/:id', GameController.getAnswer)
 router.get("/tip", () => {});
 
 export default router;

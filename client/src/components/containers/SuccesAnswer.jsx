@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router';
-import { convertToEmbedUrl } from '../../utils/common';
+
 import Button from '../ui/Button';
 
 const SuccesAnswer = ({ video, answer }) => {
   const navigate = useNavigate();
 
   return (
-    <div className='flex justify-center'>
-      <div className='flex flex-col items-center justify-center max-w-3xl m-4 '>
+    <div className='flex justify-center px-72'>
+      <div className='flex flex-col items-center justify-center w-full m-4'>
         <div className='w-full h-96'>
           <iframe
             width={'100%'}

@@ -16,6 +16,10 @@ class GameService {
 	async getGameData(question_id) {
 		return http.get(`/api/game/${question_id}`)
 	}
+
+  async getAnswer(question_id){
+    return http.get(`/api/game/answer/${question_id}`)
+  }
 }
 
 export default new GameService();

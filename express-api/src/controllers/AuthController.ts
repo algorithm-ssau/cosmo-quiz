@@ -15,7 +15,7 @@ class AuthController {
       }
       const user = await UserService.register(name, email, password);
       if (!user) {
-        throw ApiError.BadRequest('Пользователь с таким email уже существует');
+        throw ApiError.BadRequest('Этот email уже зарегестрирован');
       }
 
       const accessToken = TokenService.generateAccessToken({ id: user._id });
@@ -55,7 +55,7 @@ class AuthController {
 
       const user = await UserService.login(email, password);
       if (!user) {
-        throw ApiError.BadRequest('Неправильный логин или пароль');
+        throw ApiError.BadRequest('Неверный логин или пароль');
       }
 
       const accessToken = TokenService.generateAccessToken({ id: user._id });

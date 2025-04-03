@@ -11,7 +11,9 @@ export const questionSlice = createAppSlice({
     isDone: false,
     isRightAnswer: false,
     countClue: 0,
+    thereClue: false,
     stars: 3,
+    isFailAnswer: false,
     isLoading: false,
   },
 
@@ -24,13 +26,17 @@ export const questionSlice = createAppSlice({
         setChars(data.chars)
       );
       config.dispatch(setCountClue({countClue: data.countClue}));
-      config.dispatch(setIsDone(false))
-      config.dispatch(setStars(3))
+      config.dispatch(setIsDone(false));
+      config.dispatch(setStars(3));
+      config.dispatch(setIsFailAnswer(false));
     }),
 
     setCountClue: create.reducer((state, action) => {
       const countClue = action.payload.countClue;
       state.countClue = countClue;
+      if(state.countClue > 0){
+        state.thereClue = true;
+      }
     }),
     setRightChars: create.reducer((state, action) => {
       const rightChars = action.payload.rightChars;
@@ -266,8 +272,11 @@ export const questionSlice = createAppSlice({
       });
       state.words = words;
       //await GameService.useHint(payload.topic_id, payload.question_id)
-      if(state.countClue !=0){
+      if(state.countClue > 0){
         state.countClue--;
+      }
+      if(state.countClue == 0){
+        state.thereClue = false;
       }
     }),
 
@@ -330,9 +339,15 @@ export const questionSlice = createAppSlice({
       const result = await GameService.answer(payload.topic_id, payload.question_id, payload.words, payload.stars)
       if (result.data.status === 'correct') {
         config.dispatch(setIsRightAnswer(true))
+        config.dispatch(setThereClue(false))
       } else {
         config.dispatch(setIsRightAnswer(false))
         config.dispatch(removeStar())
+        const state = config.getState();
+        if(state.question.stars === 0){
+          config.dispatch(getAnswer(payload.question_id));
+          config.dispatch(failAnswer({topic_id: payload.topic_id, question_id: payload.question_id}))
+        }
       }
     }),
 
@@ -349,16 +364,42 @@ export const questionSlice = createAppSlice({
       state.isRightAnswer = action.payload
     }),
 
+    setIsFailAnswer: create.reducer((state, action) => {
+      state.isFailAnswer = action.payload
+    }),
+
     setStars: create.reducer((state, action) => {
       state.stars = action.payload
     }), 
 
-    removeStar: create.reducer(state=> {
+    removeStar: create.reducer((state) => {
       state.stars--;
-    })
+      if(state.stars == 0){
+        state.isFailAnswer = true;
+      }
+    }),
+
+    setThereClue: create.reducer((state, action) => {
+      state.thereClue = action.payload;
+    }),
+
+    getAnswer: create.asyncThunk(async (payload, config) =>{
+      const answer = (await GameService.getAnswer(payload)).data;
+      config.dispatch(setAnswer(answer));
+    }),
+
+    setAnswer: create.reducer((state, action) => {
+      const answer = action.payload;
+      for(let i = 0; i<state.words.length; i++){
+        for(let j = 0; j < state.words[i].length; j++){
+          state.words[i][j].char = answer[i][j];
+          state.words[i][j].right = true;
+        }
+      }
+    }),
   }),
 });
 
-export const {failAnswer, setStars, removeStar, hint, setWords, setChars, selectChar, unselectChar, fetchData, clear, setIsDone, setIsRightAnswer, answer, fillRightChar, setRightChars, setCountClue, clearWords, clearChars } = questionSlice.actions;
+export const {getAnswer, setAnswer, setIsFailAnswer, failAnswer, setStars, removeStar, hint, setWords, setChars, selectChar, unselectChar, fetchData, clear, setIsDone, setIsRightAnswer, answer, fillRightChar, setRightChars, setCountClue, clearWords, clearChars, setThereClue } = questionSlice.actions;
 
 export default questionSlice.reducer;

@@ -18,7 +18,9 @@ export default {
       green: '#4ce65e',
       gold: '#FFD700',
       darkBlue: '#0e0159',
-      lightBlue: '#88a9fc',
+      bgProfile: '#0b0138',
+      glow: '#05839c',
+      lightBlue: '#68b2fc',
       lockColor: '#7aa4ff',
       black: '#000000'
     },

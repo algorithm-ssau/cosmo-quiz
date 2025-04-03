@@ -19,6 +19,14 @@ class GameService {
 
     return true;
   }
+
+  async getAnswer(question_id: Types.ObjectId): Promise<string[] | null> {
+    const answer = (await QuestionService.get(question_id))?.words;
+    if (!answer) {
+      return null;
+    }
+    return answer;
+  }
   
   async getGameData(question_id: Types.ObjectId): Promise<TGetGameData | null> {
     const words = (await QuestionService.get(question_id))?.words;
@@ -28,8 +36,20 @@ class GameService {
     let charss: string[];
     const russianAlphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'.split('');
     if (words.length === 1 && words[0].length === 1 || /^\d+$/.test(words.join(''))) {
-      // Если words содержит одно слово длиной 1, записываем 7 символов
-      charss = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
+      if (/^\d+$/.test(words[0]) && words[0].length>3) {
+        // Берем все цифры из слова
+        let digits = words[0].split('');
+        let dLength = digits.length;
+        while (digits.length < dLength + 2) {
+            const randomDigit = Math.floor(Math.random() * 10).toString(); // Генерируем случайную цифру
+            if (!digits.includes(randomDigit)) {
+                digits.push(randomDigit);
+            }
+        }
+        charss = Array.from(digits).sort(() => Math.random() - 0.5);;
+      } else {
+        charss = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
+      }
     } else if (words.join('').length <= 14) {
       // Если суммарная длина words ≤ 14, используем все символы из words + случайные русские буквы
       const wordsChars = words.join('').split(''); // Собираем уникальные символы из words
