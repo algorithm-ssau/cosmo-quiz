@@ -15,6 +15,7 @@ const UserSchema = new Schema<TUser, Model<TUser>>({
     type: String,
     required: true,
   },
+  countStarPrizes: Number, 
   topic_progress: [{ topic_id: Schema.Types.ObjectId, count: Number }],
   question_stars: [
     {

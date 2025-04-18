@@ -5,6 +5,7 @@ type TUser = {
   name: string;
   email: string;
   password: string;
+  countStarPrizes: number;
   topic_progress: { topic_id: Types.ObjectId; count: number }[];
   question_stars: {
     topic_id: Types.ObjectId;

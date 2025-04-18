@@ -5,6 +5,7 @@ type TQuestion = {
   name: string;
   words: string[];
   author: string;
+  fullAuthor: Types.ObjectId;
   whoAuthor: string;
   question: string;
   answer: string;

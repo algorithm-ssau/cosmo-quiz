@@ -340,6 +340,7 @@ export const questionSlice = createAppSlice({
       if (result.data.status === 'correct') {
         config.dispatch(setIsRightAnswer(true))
         config.dispatch(setThereClue(false))
+        config.dispatch(getAnswer(payload.question_id));
       } else {
         config.dispatch(setIsRightAnswer(false))
         config.dispatch(removeStar())

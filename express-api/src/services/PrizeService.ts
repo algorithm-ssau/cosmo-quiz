@@ -19,25 +19,33 @@ const transporter = nodemailer.createTransport({
  * @param userEmail Email пользователя
  * @param topicTitle Название темы
  */
-export async function sendStarsEmail(userEmail: string, topicName: string, userName: string, stars: number, imagePaths: string[]): Promise<void> {
-    const attachments = imagePaths
-      .filter(imagePath => fs.existsSync(imagePath)) // Убираем несуществующие файлы
-      .map(imagePath => ({
-        filename: path.basename(imagePath), // Имя файла
-        path: imagePath, // Путь к файлу
-        contentType: 'image/jpg' // Замените на нужный тип файла (например, image/jpeg)
-      }));
+const starsAttachments: Record<number , string> = {
+  30: './prizes/tsiolkovsky.jpg',
+  60: './prizes/Leonov.jpg',
+  90: './prizes/horzions.jpg',
+  120: './prizes/shuttle.jpg'
+};
+
+export async function sendStarsEmail(userEmail: string, userName: string, stars: number): Promise<void> {
+  const prizePath = starsAttachments[stars];
+  const attachments = fs.existsSync(prizePath)
+  ? [{
+      filename: path.basename(prizePath),
+      path: prizePath,
+      contentType: 'image/jpg' 
+    }]
+  : [];
   const mailOptions = {
     from: process.env.EMAIL,
     to: userEmail,
-    subject: `Одиссея Марса – приз за прохождение темы`,
-    text: `Отличные новости! Вы завершили тему "${topicName}". Продолжайте в том же духе!`,
-    html: `<p style="text-align: center;"><img alt="Mars" src="https://downloader.disk.yandex.ru/preview/8844a2c1f1e67d4d2fcc7711b8650fb35e18840e21842980e3845cd48f06c9d1/67e8386a/UqB5QTAuJ9ubx_mtG2gT3ca_WbHkUOyKRhY7D4NJtq_InAzVmkGm94KQxDXolZMPckGQZruN_HOlvJH5tH1SWA%3D%3D?uid=0&filename=2.PNG&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=1920x935" width="300" /></p>
+    subject: `Одиссея Марса – приз за получение баллов`,
+    text: `Отличные новости! Вы уже получили ${stars} баллов. Продолжайте в том же духе!`,
+    html: `<p style="text-align: center;"><img alt="Mars" src="https://downloader.disk.yandex.ru/preview/7188514eaa75ec3c30172936deb5a63598f453cd72551f9d0211544c710c0861/67fe6f9d/txwtISVLIba5wIn4JBvGTsa_WbHkUOyKRhY7D4NJtq_-1PLaewBEvdT7a_VPDzx2SrQ2iv5VSo7ad6zdNziEVw%3D%3D?uid=0&filename=3.PNG&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=1920x935" width="300" /></p>
 <p style="text-align: center;"><strong>${userName}, поздравляю!</strong></p>
 <p style="text-align: center;"><strong>Ты настоящий знаток космонавтики! </strong></p>
-<p style="text-align: center;">Ты ответил на все вопросы маршрута &laquo;${topicName}&raquo; и набрал ${stars} баллов.&nbsp;</p>
-<p style="text-align: center;">За это я хочу подарить тебе <strong>уникальные фотографии Героя РФ, лётчика-космонавта Артемьева Олега Германовича.</strong> Ты можешь их использовать как заставки рабочего стола или распечатать и повесить на стену!</p>
-<p style="text-align: center;">Давай пройдем следующую тему вместе?!</p>
+<p style="text-align: center;">Ты набрал уже целых ${stars} баллов.&nbsp;</p>
+<p style="text-align: center;">За это я хочу подарить тебе <strong>картину космического хужожника Просочкиной Анастасии.</strong> Ты можешь её использовать как заставки рабочего стола или распечатать и повесить на стену!</p>
+<p style="text-align: center;">Давай наберём больше баллов?!</p>
 <p style="text-align: center;"><strong>Твой Марс!</strong></p>
 `,
     attachments

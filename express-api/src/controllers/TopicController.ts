@@ -14,6 +14,15 @@ class TopicController {
     }
   }
 
+  async getAuthors(req: Request, res: Response, next: NextFunction) {
+    try {
+      const authors = await TopicService.getAuthors();
+      res.status(200).json(authors);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async get(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id;
@@ -33,6 +42,7 @@ class TopicController {
           answer: question.answer,
           author: question.author,
           whoAuthor: question.whoAuthor,
+          fullAuthor: question.fullAuthor,
           name: question.name,
           question: question.question,
           answerVideo: question.answerVideo,

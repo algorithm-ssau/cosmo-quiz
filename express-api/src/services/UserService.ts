@@ -3,7 +3,7 @@ import User from "../db/models/User";
 import bcrypt from "bcryptjs";
 import { Types } from "mongoose";
 import Topic from "../db/models/Topic";
-import { sendCompletionEmail } from '../services/PrizeService';
+import { sendCompletionEmail, sendStarsEmail } from '../services/PrizeService';
 
 class UserService {
   async register(
@@ -55,6 +55,7 @@ class UserService {
       email,
       password: hashedPassword,
       topic_progress: topic_progress,
+      countStarPrizes: 0,
       question_stars: question_stars,
       used_hints: used_hints,
     });
@@ -83,6 +84,27 @@ class UserService {
   async get(id: Types.ObjectId): Promise<TUser | null> {
     const user = await User.findOne({ _id: id }).exec();
     return user;
+  }
+
+  async recivePrize(id: Types.ObjectId): Promise<TUser | null> {
+    let res = await User.findByIdAndUpdate(id, 
+      {$inc: {countStarPrizes: 1}},
+      {new: true}
+    ).exec();
+    return res;
+  }
+
+  async editUserData(id: Types.ObjectId, newName: string, newEmail:string): Promise<TUser | null> {
+    const existingUser = await User.findOne({ email: newEmail });
+    const curUser = await User.findOne({ _id: id });
+    if (existingUser && !existingUser._id.equals(curUser?._id)) {
+      return null;
+    }
+    let res = await User.findByIdAndUpdate(id, {
+      name: newName,
+      email: newEmail
+    }).exec();
+    return res;
   }
 
   async correctAnswer(
@@ -150,7 +172,7 @@ class UserService {
         topic_progress: newTopicProgress,
         question_stars: newQuestionStars
       }).exec();
-      const updUser = await User.findOne({ _id: user_id }).exec();
+      /*const updUser = await User.findOne({ _id: user_id }).exec();
       if (!updUser) {
         return null;
       }
@@ -158,19 +180,28 @@ class UserService {
         (acc, topic) => acc + topic.stars.reduce((acc, question) => acc + question.count, 0),
         0
       );
-      const topicStars = updUser.question_stars?.find(topic => topic.topic_id.equals(topic_id))
-      ?.stars?.reduce((acc, question) => acc + question.count, 0)??0;
-      const topicProgress = updUser.topic_progress?.find(topic => topic.topic_id.equals(topic_id))?.count
-      const topicLength = updUser.question_stars?.find(topic => topic.topic_id.equals(topic_id))?.stars.length
-      console.log(topicProgress);
-      console.log(topicLength);
-      if(topicProgress == topicLength){
-        const topic = await Topic.findOne({ _id: topic_id }).exec();
-        if (!topic) {
-          return null;
-        }
-        await sendCompletionEmail(updUser.email, topic.name, updUser.name, topicStars);
-      }
+      if(stars >= 3 && updUser.countStarPrizes == 0){
+        await sendStarsEmail(updUser.email, updUser.name, 30);
+        res = await User.findByIdAndUpdate(user_id, {
+          countStarPrizes: 1
+        }).exec();
+      } else if(stars >= 6 && updUser.countStarPrizes == 1){
+        await sendStarsEmail(updUser.email, updUser.name, 60);
+        res = await User.findByIdAndUpdate(user_id, {
+          countStarPrizes: 2
+        }).exec();
+      } else if(stars >= 9 && updUser.countStarPrizes == 2){
+        await sendStarsEmail(updUser.email, updUser.name, 90);
+        res = await User.findByIdAndUpdate(user_id, {
+          countStarPrizes: 3
+        }).exec();
+      } else if(stars >= 12 && updUser.countStarPrizes == 3){
+        await sendStarsEmail(updUser.email, updUser.name, 120);
+        res = await User.findByIdAndUpdate(user_id, {
+          countStarPrizes: 4
+        }).exec();
+      }*/
+
     }
     if (!res) {
       return null;

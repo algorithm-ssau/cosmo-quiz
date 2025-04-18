@@ -8,7 +8,7 @@ export const authSlice = createAppSlice({
     user: {},
     isAuth: true,
     errorMessage: '',
-
+    editMessage:"",
     isLoading: false,
   },
 
@@ -78,6 +78,7 @@ export const authSlice = createAppSlice({
 
     clearError: create.reducer(state => {
       state.errorMessage = '';
+      state.editMessage = '';
     }),
 
     login: create.asyncThunk(
@@ -126,9 +127,28 @@ export const authSlice = createAppSlice({
         },
       }
     ),
+
+    editUserData: create.asyncThunk(async (payload, config) => {
+      try{
+        const res = await UserService.editUserData(payload.userName, payload.email);
+        return res.data;
+      }catch (error) {
+          throw config.rejectWithValue(error.response.data.message);
+        }
+    }, {
+      pending: state => {
+        state.editMessage = '';
+      },
+      fulfilled: (state) => {
+        state.editMessage = "Данные сохранены"
+      },
+      rejected: (state, action) => {
+        state.editMessage = action.payload;
+      },
+    }),
   }),
 });
 
-export const { checkAuth, login, logout, register, fetchUserData, clearError } = authSlice.actions;
+export const { checkAuth, login, logout, register, fetchUserData, clearError, editUserData } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -78,9 +78,9 @@ export default function QuestionCard({
           <div 
            className="absolute w-full h-48 bg-black rounded shadow-[0_0_20px_10px_rgba(5,131,156,0.2)] rotate-y-180 backface-hidden"
            onClick = {() => {
-            if(!isDone){
+            //if(!isDone){
               onClick();
-            }
+            //}
             }}
             >
               <div className="grid items-stretch grid-cols-5">

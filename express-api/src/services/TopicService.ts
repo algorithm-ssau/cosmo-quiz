@@ -1,7 +1,9 @@
 import { Types } from "mongoose";
 import TTopic from "../types/Topic";
 import Topic from "../db/models/Topic";
+import Author from "../db/models/Author";
 import TQuestion from "../types/Question";
+import TAuthor from "../types/Author";
 
 class TopicService {
   async getAll(): Promise<TTopic[] | null> {
@@ -9,16 +11,29 @@ class TopicService {
     return topics;
   }
 
+  async getAuthors(): Promise<TAuthor[] | null> {
+    const authors = await Author.find().exec();
+    return authors;
+  }
+
   async get(
     id: Types.ObjectId,
-  ): Promise<Omit<TTopic, 'questions'> & { questions: TQuestion[] } | null> {
+  ): Promise<Omit<TTopic, 'questions'> & { questions: (TQuestion & {fullAuthor: TAuthor})[] } | null> {
     const topic = await Topic.findOne({ _id: id })
-      .populate<{ questions: TQuestion[] }>("questions")
+      .populate({
+        path: 'questions',
+        populate: {
+          path: 'fullAuthor',
+          model: 'Author',
+        },
+      })
       .exec();
     if (!topic) {
       return null;
     }
-    return topic;
+    return topic as unknown as Omit<TTopic, 'questions'> & {
+      questions: (TQuestion & { fullAuthor: TAuthor })[];
+    };
   }
 }
 

@@ -5,7 +5,7 @@ export default function Layout() {
     return (
         <>
             <NewHeader />
-            <main className="container pl-0 pr-0 md:pr-1 md:pl-1">
+            <main className="container pl-0 pr-0 ">
                 <Outlet />
             </main>
         </>

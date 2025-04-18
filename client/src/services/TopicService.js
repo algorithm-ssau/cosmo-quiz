@@ -8,6 +8,10 @@ class TopicService{
 	async getOne(id) {
 		return http.get(`/api/topics/${id}`)
 	}
+
+	async getAuthors() {
+		return http.get('/api/topics/authors')
+	}
 }
 
 export default new TopicService()

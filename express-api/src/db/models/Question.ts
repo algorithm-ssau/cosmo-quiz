@@ -8,6 +8,10 @@ export const QuestionSchema = new Schema<TQuestion, Model<TQuestion>>({
   },
   author: String,
   whoAuthor: String,
+  fullAuthor:{
+    type: Schema.Types.ObjectId,
+    ref: "Author",
+  },
   words: {
     type: [String],
     required: true,

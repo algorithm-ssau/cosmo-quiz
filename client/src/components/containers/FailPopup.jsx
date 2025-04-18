@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { IoStar } from 'react-icons/io5';
 import WordList from './WordList';
 
-export default function FailPopup({videoAnswer, endTopic, isTopicLoading, stars, isLast, sendPrize}) {
+export default function FailPopup({videoAnswer, endTopic, isTopicPrizeLoading, stars, isLast, sendTopicPrize}) {
     const navigate = useNavigate();
     const [isVideo, setIsVideo] = useState(false);
     const [isOpen, setIsOpen] = useState(true); // Управляем показом окна
@@ -41,7 +41,7 @@ export default function FailPopup({videoAnswer, endTopic, isTopicLoading, stars,
             </div>
         </div>
     );
-    if(isTopicLoading){ 
+    if(isTopicPrizeLoading){ 
         return(
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
                     <div className="relative px-6 pt-16 pb-6 border-4 shadow-lg border-lightBlue bg-bgProfile rounded-[20px] mt-20">
@@ -111,7 +111,7 @@ export default function FailPopup({videoAnswer, endTopic, isTopicLoading, stars,
                 <button
                 onClick={() => {
                     if(isLast){
-                        sendPrize();
+                        sendTopicPrize();
                     }else{
                         setIsOpen(false);
                         navigate(-1); 
@@ -143,7 +143,7 @@ export default function FailPopup({videoAnswer, endTopic, isTopicLoading, stars,
                         <button
                             onClick={() => {
                                 if(isLast){
-                                    sendPrize();
+                                    sendTopicPrize();
                                 }else{
                                     setIsOpen(false);
                                     navigate(-1); 

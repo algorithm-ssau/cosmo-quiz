@@ -25,6 +25,12 @@ class QuestionController {
           answer: question.answer,
           author: question.author,
           whoAuthor: question.whoAuthor,
+          fullAuthor:{
+            name: question.fullAuthor.name,
+            whoAuthor: question.fullAuthor.whoAuthor,
+            desc: question.fullAuthor.desc,
+            avatar: question.fullAuthor.avatar,
+          },
           name: question.name,
           question: question.question,
           answerVideo: question.answerVideo,
