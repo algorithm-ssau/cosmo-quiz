@@ -5,7 +5,7 @@ import TopicService from "../services/TopicService";
 import { Types, isObjectIdOrHexString } from "mongoose";
 import ApiError from "../errors/ApiError";
 import getPayloadFromHeader from "../utils/GetPayloadFromHeader";
-import { sendCompletionEmail, sendStarsEmail } from '../services/PrizeService';
+import { sendCompletionEmail, sendNewUserEmail, sendStarsEmail } from '../services/PrizeService';
 import TypedBodyRequest from "../utils/TypedRequest";
 import { TSendPrizeBody } from "../types/Common";
 
@@ -120,6 +120,20 @@ class UserController {
         await sendStarsEmail(user.email, user.name, 120);
       }
       res.status(200).json({ message: 'Письма отправлены успешно' });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async sendNewUserPrize(req: Request, res: Response, next: NextFunction) {
+    try {
+      const payload = getPayloadFromHeader(req);
+      const user = await UserService.get(payload.id);
+      if (!user) {
+        throw ApiError.Unauthorized();
+      }
+      await sendNewUserEmail(user.email, user.name);
+      res.status(200).json({ message: 'Письмо отправлено успешно' });
     } catch (error) {
       next(error);
     }

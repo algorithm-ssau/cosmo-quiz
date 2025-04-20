@@ -4,9 +4,7 @@ type TQuestion = {
   _id: Types.ObjectId;
   name: string;
   words: string[];
-  author: string;
-  fullAuthor: Types.ObjectId;
-  whoAuthor: string;
+  author: Types.ObjectId;
   question: string;
   answer: string;
   questionVideo?: string;

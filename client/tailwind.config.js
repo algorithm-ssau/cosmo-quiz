@@ -21,7 +21,7 @@ export default {
       bgProfile: '#0b0138',
       glow: '#05839c',
       lightBlue: '#68b2fc',
-      lockColor: '#7aa4ff',
+      lockColor: '#96d0ff',
       black: '#000000'
     },
 

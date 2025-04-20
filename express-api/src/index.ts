@@ -23,7 +23,6 @@ app.use(express.json());
 app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
 app.use(cookieParser());
 app.use("/prizes", express.static(path.join(__dirname, "../prizes")));
-app.use("/heroes", express.static(path.join(__dirname, "..", "public", "heroes")));
 
 app.use("/api/auth", AuthRouter);
 app.use("/api/user", AuthMiddleware, UserRouter);

@@ -23,13 +23,11 @@ class QuestionController {
         .json({
           _id: question._id,
           answer: question.answer,
-          author: question.author,
-          whoAuthor: question.whoAuthor,
-          fullAuthor:{
-            name: question.fullAuthor.name,
-            whoAuthor: question.fullAuthor.whoAuthor,
-            desc: question.fullAuthor.desc,
-            avatar: question.fullAuthor.avatar,
+          author:{
+            name: question.author.name,
+            whoAuthor: question.author.whoAuthor,
+            desc: question.author.desc,
+            avatar: question.author.avatar,
           },
           name: question.name,
           question: question.question,

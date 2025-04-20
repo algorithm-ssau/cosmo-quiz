@@ -193,7 +193,7 @@ export default function Question() {
             </div>
             <div className='absolute px-5 rounded-r bg-gold'>
               <p className='text-black '>{(() => {
-                const parts = question.author.split(" ");
+                const parts = question.author.name.split(" ");
                 return parts.length === 3
                   ? `${parts[0]} ${parts[1][0]}. ${parts[2][0]}.`
                   : `${parts[0]} ${parts[1][0]}.`;

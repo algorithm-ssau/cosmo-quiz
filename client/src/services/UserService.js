@@ -11,6 +11,9 @@ class UserService {
     async sendStarsPrize(){
         return http.post("/api/user/sendStarsPrize")
     }
+    async sendNewUserPrize(){
+        return http.post("/api/user/sendNewUserPrize")
+    }
     async resendPrizes(){
         return http.post("/api/user/resendPrizes")
     }

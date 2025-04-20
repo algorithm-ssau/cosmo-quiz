@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router';
 import { useCallback, useEffect } from 'react';
 import { getOneTopic } from '../store/slices/topicSlice';
-import { fetchUserData } from '../store/slices/authSlice'
+import { fetchUserData, offNewUser } from '../store/slices/authSlice'
 import { IoStar } from 'react-icons/io5';
 
 export default function Topic() {
@@ -17,6 +17,7 @@ export default function Topic() {
   const endTopic = useSelector(state => state.topic.endTopic);
   const user = useSelector(state => state.auth.user);
   const isUserLoading = useSelector(state => state.auth.user.isLoading);
+  const newUser = useSelector((state) => state.auth.newUser);
   const navigate = useNavigate();
   const topic_id = useParams().id;
   const progress_count = user.topic_progress?.find(topic => topic.topic_id == topic_id).count;
@@ -106,10 +107,36 @@ export default function Topic() {
         <title>{`Тема - ${topic.name}`}</title>
       </Helmet>
       <div className='h-full'>
+        {newUser&&
+          <div className="fixed inset-0 z-50 flex flex-col items-center justify-center pb-5 bg-black bg-opacity-95">
+          <h1 className='mb-6 text-3xl font-bold text-white md:text-4xl md:mb-3'>Вступление</h1>
+          <p className="pb-6 text-lg font-bold leading-tight text-center text-white md:pb-3">Леонов Алексей Архипович</p>
+          <div className='w-full max-w-[640px] aspect-video'>
+              <iframe
+                  width={'100%'}
+                  height={'100%'}
+                  id='ytplayer'
+                  type='text/html'
+                  src="https://rutube.ru/play/embed/608e54187a53ee637b39215319394334/?p=S4Y5Bfzi5EQO6YPsLEgq6g"
+              />
+          </div>
+          <p className="pt-6 text-sm font-bold leading-tight text-center text-white md:pt-3">Дважды Герой СССР, лётчик-космонавт, <br /> генерал-майор авиации, к.т.н., <br /> первый человек, вышедший в открытый космос, <br /> участник первого космического полёта &laquo;Союз-Аполлон&raquo;. </p>
+          <div>
+              <button
+                  onClick={() => {
+                  dispatch(offNewUser()); // Закрываем окно
+              }}
+                className="px-16 py-2 mt-6 text-lg font-bold text-black rounded md:text-2xl md:px-28 bg-lightBlue md:mt-5"
+              >
+                  Закрыть
+              </button>
+          </div>
+      </div>
+        }
         <h1 className='mt-4 text-2xl font-bold text-center text-white md:text-3xl'>
           {topic.name}
         </h1>
-        <div className='grid grid-cols-1 gap-8 p-3 mt-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
+        <div className='grid grid-cols-2 gap-4 p-3 mt-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-8 lg:gap-8'>
           {topic.questions?.map((question, index) => {
             return (
               
@@ -118,13 +145,13 @@ export default function Topic() {
                   topic_id={topic_id}
                   title={question.name}
                   starsCount={getStarsCount(question._id)}
-                  author={question.fullAuthor?.name || "Неизвестный автор"}
-                  whoAuthor={question.fullAuthor?.whoAuthor || "Неизвестный автор"}
+                  author={question.author?.name || "Неизвестный автор"}
+                  whoAuthor={question.author?.whoAuthor || "Неизвестный автор"}
                   number={index + 1}
                   isFlipped={flippedCard === index}
                   setFlippedCard={setFlippedCard}
                   isAvailable={index<progress_count+1}
-                  //isDone={index < progress_count}
+                  isDone={index < progress_count}
                   onClick={() => {
                     navigate(`/topics/${topic_id}/${question._id}`);
                   }}

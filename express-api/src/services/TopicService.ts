@@ -18,12 +18,12 @@ class TopicService {
 
   async get(
     id: Types.ObjectId,
-  ): Promise<Omit<TTopic, 'questions'> & { questions: (TQuestion & {fullAuthor: TAuthor})[] } | null> {
+  ): Promise<Omit<TTopic, 'questions'> & { questions: (TQuestion & {author: TAuthor})[] } | null> {
     const topic = await Topic.findOne({ _id: id })
       .populate({
         path: 'questions',
         populate: {
-          path: 'fullAuthor',
+          path: 'author',
           model: 'Author',
         },
       })
@@ -32,7 +32,7 @@ class TopicService {
       return null;
     }
     return topic as unknown as Omit<TTopic, 'questions'> & {
-      questions: (TQuestion & { fullAuthor: TAuthor })[];
+      questions: (TQuestion & { author: TAuthor })[];
     };
   }
 }

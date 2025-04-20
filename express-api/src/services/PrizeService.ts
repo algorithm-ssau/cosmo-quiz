@@ -14,6 +14,29 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+export async function sendNewUserEmail(userEmail: string, userName: string): Promise<void> {
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: userEmail,
+    subject: `Одиссея Марса – приз за регистрацию`,
+    html: `<p style="text-align: center;"><img alt="Mars" src="https://downloader.disk.yandex.ru/preview/0d4487a12bc1ec95a0ff131141b46cd19d5a2c967b6bb14ac6026498f2e2ec92/6803e81b/UqB5QTAuJ9ubx_mtG2gT3ca_WbHkUOyKRhY7D4NJtq_InAzVmkGm94KQxDXolZMPckGQZruN_HOlvJH5tH1SWA%3D%3D?uid=0&filename=2.PNG&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=1920x935" width="300" /></p>
+</strong></p>
+<p style="text-align: center;"><strong>Привет, ${userName}!</strong></p>
+<p style="text-align: center;"><strong>Я &ndash; Марс! </strong>Я познакомлю тебя с нашими героями, космонавтами!<strong>&nbsp;</strong></p>
+<p style="text-align: center;">В знак нашей зарождающейся дружбы я <strong>дарю тебе авторский космический стикерпак </strong>от художника Анастасии Петровой.</p>
+<p style="text-align: center;">Вот твоя <a href="https://t.me/addstickers/OdysseyOfMars" target="_blank">ссылка на приз</a>.</p>
+<p style="text-align: center;"><strong>Спасибо, что решил поиграть со мной! </strong></p>
+<p style="text-align: center;"><strong>Твой Марс!</strong></p>
+`
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Email отправлен на ${userEmail}`);
+  } catch (error) {
+    console.error('Ошибка при отправке email:', error);
+  }
+}
 /**
  * Отправляет письмо пользователю о завершении темы
  * @param userEmail Email пользователя

@@ -4,8 +4,8 @@ import Question from "../db/models/Question";
 import TAuthor from "../types/Author";
 
 class QuestionService {
-  async get(question_id: Types.ObjectId): Promise<Omit<TQuestion,"fullAuthor"> & {fullAuthor: TAuthor} | null> {
-    const question = await Question.findOne({ _id: question_id }).populate<{ fullAuthor: TAuthor }>("fullAuthor");
+  async get(question_id: Types.ObjectId): Promise<Omit<TQuestion,"author"> & {author: TAuthor} | null> {
+    const question = await Question.findOne({ _id: question_id }).populate<{ author: TAuthor }>("author");
     if (!question) {
       return null;
     }

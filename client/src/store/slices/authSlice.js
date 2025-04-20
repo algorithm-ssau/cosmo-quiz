@@ -10,6 +10,7 @@ export const authSlice = createAppSlice({
     errorMessage: '',
     editMessage:"",
     isLoading: false,
+    newUser: false
   },
 
   reducers: create => ({
@@ -67,6 +68,7 @@ export const authSlice = createAppSlice({
         fulfilled: (state, action) => {
           state.user = action.payload;
           state.isAuth = true;
+          state.newUser = true;
         },
         rejected: (state, action) => {
           state.errorMessage = action.payload;
@@ -75,6 +77,16 @@ export const authSlice = createAppSlice({
         },
       }
     ),
+
+    offNewUser: create.asyncThunk(async() => {
+      const res = await UserService.sendNewUserPrize();
+      return res.data;
+    },
+    {
+      pending: state => {
+        state.newUser = false;
+      },
+    }),
 
     clearError: create.reducer(state => {
       state.errorMessage = '';
@@ -149,6 +161,6 @@ export const authSlice = createAppSlice({
   }),
 });
 
-export const { checkAuth, login, logout, register, fetchUserData, clearError, editUserData } = authSlice.actions;
+export const { checkAuth, login, logout, register, fetchUserData, clearError, editUserData, offNewUser } = authSlice.actions;
 
 export default authSlice.reducer;

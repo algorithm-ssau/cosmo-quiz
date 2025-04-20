@@ -6,9 +6,7 @@ export const QuestionSchema = new Schema<TQuestion, Model<TQuestion>>({
     type: String,
     required: true,
   },
-  author: String,
-  whoAuthor: String,
-  fullAuthor:{
+  author:{
     type: Schema.Types.ObjectId,
     ref: "Author",
   },

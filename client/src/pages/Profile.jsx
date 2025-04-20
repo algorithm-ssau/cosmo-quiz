@@ -56,7 +56,7 @@ export default function Profile() {
       <Helmet>
         <title>Мой профиль</title>
       </Helmet>
-      <div className="flex flex-col items-center h-screen lg:px-80 lg:max-h-screen">
+      <div className="flex flex-col items-center h-screen lg:px-80 lg:h-full">
         {isVideo&& 
           <div className="fixed inset-0 z-50 flex flex-col items-center justify-center pb-5 bg-black bg-opacity-95">
           <h1 className='mb-3 text-2xl font-bold text-white md:text-4xl'>Видео c МКС</h1>
@@ -126,6 +126,14 @@ export default function Profile() {
               }}
             >
               Узнать о наградах
+            </button>
+            <button
+              className="px-4 py-4 text-center border-b-2"
+              onClick={() => {
+                navigate(`/profile/about`);
+              }}
+            >
+              О веб-приложении
             </button>
             <button
               className="py-4 text-center border-b-2"
