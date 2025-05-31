@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import axios from 'axios';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
@@ -14,12 +15,26 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+export async function sendNewUserEmail1(userEmail: string, userName: string): Promise<void> {
+  try {
+    const response = await axios.post('http://odysseymars.com/api/v0/sendemail?key=ZfMtsgkd$2RpkWWx', {
+      email: userEmail,
+      name: userName,
+      prize: 'registration',
+    });
+
+    console.log('Ответ от внешнего API:', response.data);
+  } catch (error) {
+    console.error('Ошибка при отправке запроса:', error);
+  }
+};
+
 export async function sendNewUserEmail(userEmail: string, userName: string): Promise<void> {
   const mailOptions = {
     from: process.env.EMAIL,
     to: userEmail,
     subject: `Одиссея Марса – приз за регистрацию`,
-    html: `<p style="text-align: center;"><img alt="Mars" src="https://downloader.disk.yandex.ru/preview/0d4487a12bc1ec95a0ff131141b46cd19d5a2c967b6bb14ac6026498f2e2ec92/6803e81b/UqB5QTAuJ9ubx_mtG2gT3ca_WbHkUOyKRhY7D4NJtq_InAzVmkGm94KQxDXolZMPckGQZruN_HOlvJH5tH1SWA%3D%3D?uid=0&filename=2.PNG&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=1920x935" width="300" /></p>
+    html: `<p style="text-align: center;"><img alt="Mars" src="https://downloader.disk.yandex.ru/preview/5bd78cabf73dc0884bc7dce8bc614be82706dc66e0ebd7cc22d7ef5e9e13fcdb/681a4fda/UtkeXK6qzAyfpeMwa1h-Wsa_WbHkUOyKRhY7D4NJtq_gpff4z8NiIiml-WZd_at8K6FjbnWl-VkKcmTQ8BJ6_w%3D%3D?uid=0&filename=1.PNG&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v3&size=1920x935" width="300" /></p>
 </strong></p>
 <p style="text-align: center;"><strong>Привет, ${userName}!</strong></p>
 <p style="text-align: center;"><strong>Я &ndash; Марс! </strong>Я познакомлю тебя с нашими героями, космонавтами!<strong>&nbsp;</strong></p>
@@ -37,11 +52,7 @@ export async function sendNewUserEmail(userEmail: string, userName: string): Pro
     console.error('Ошибка при отправке email:', error);
   }
 }
-/**
- * Отправляет письмо пользователю о завершении темы
- * @param userEmail Email пользователя
- * @param topicTitle Название темы
- */
+
 const starsAttachments: Record<number , string> = {
   30: './prizes/tsiolkovsky.jpg',
   60: './prizes/Leonov.jpg',
@@ -63,7 +74,7 @@ export async function sendStarsEmail(userEmail: string, userName: string, stars:
     to: userEmail,
     subject: `Одиссея Марса – приз за получение баллов`,
     text: `Отличные новости! Вы уже получили ${stars} баллов. Продолжайте в том же духе!`,
-    html: `<p style="text-align: center;"><img alt="Mars" src="https://downloader.disk.yandex.ru/preview/7188514eaa75ec3c30172936deb5a63598f453cd72551f9d0211544c710c0861/67fe6f9d/txwtISVLIba5wIn4JBvGTsa_WbHkUOyKRhY7D4NJtq_-1PLaewBEvdT7a_VPDzx2SrQ2iv5VSo7ad6zdNziEVw%3D%3D?uid=0&filename=3.PNG&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=1920x935" width="300" /></p>
+    html: `<p style="text-align: center;"><img alt="Mars" src="https://downloader.disk.yandex.ru/preview/86bc0b00b81527d54d2e33bfdb43396120611b1e042b0aac41bcb4e8e5392312/681a4fda/txwtISVLIba5wIn4JBvGTsa_WbHkUOyKRhY7D4NJtq_-1PLaewBEvdT7a_VPDzx2SrQ2iv5VSo7ad6zdNziEVw%3D%3D?uid=0&filename=3.PNG&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v3&size=1920x935" width="300" /></p>
 <p style="text-align: center;"><strong>${userName}, поздравляю!</strong></p>
 <p style="text-align: center;"><strong>Ты настоящий знаток космонавтики! </strong></p>
 <p style="text-align: center;">Ты набрал уже целых ${stars} баллов.&nbsp;</p>
@@ -82,6 +93,21 @@ export async function sendStarsEmail(userEmail: string, userName: string, stars:
   }
 }
 
+export async function sendStarsEmail1(userEmail: string, userName: string, stars: number): Promise<void> {
+  try {
+    const response = await axios.post('http://odysseymars.com/api/v0/sendemail?key=ZfMtsgkd$2RpkWWx', {
+      email: userEmail,
+      name: userName,
+      count: `prize ${stars}`,
+      prize: 'stars',
+      score: stars
+    });
+    console.log('Ответ от внешнего API:', response.data);
+  } catch (error) {
+    console.error('Ошибка при отправке запроса:', error);
+  }
+}
+
 const topicAttachments: Record<string, string[]> = {
     'Техника и космос': ['./prizes/deserteye.jpg','./prizes/ballhash.jpg'],
     'Культура': ['./prizes/clouds.jpg', './prizes/river.jpg'],
@@ -89,7 +115,7 @@ const topicAttachments: Record<string, string[]> = {
     'Самарские предприятия, проложившие путь в космос': ['./prizes/moon.jpg', './prizes/sunrise.jpg']
   };
 
-export async function sendCompletionEmail(userEmail: string, topicName: string, userName: string, stars: number): Promise<void> {
+export async function sendCompletionEmail1(userEmail: string, topicName: string, userName: string, stars: number): Promise<void> {
     const prizePaths = topicAttachments[topicName];
     const imageUrl = "http://localhost:5001/prizes/2.PNG";
     const attachments = prizePaths
@@ -104,10 +130,10 @@ export async function sendCompletionEmail(userEmail: string, topicName: string, 
     to: userEmail,
     subject: `Одиссея Марса – приз за прохождение темы`,
     text: `Отличные новости! Вы завершили тему "${topicName}". Продолжайте в том же духе!`,
-    html: `<p style="text-align: center;"><img alt="Mars" src="https://downloader.disk.yandex.ru/preview/af0de0cb738359d8e2ffda7fe5c36d0153737da6b983cc45151ee61736911bce/67edbf7d/UqB5QTAuJ9ubx_mtG2gT3ca_WbHkUOyKRhY7D4NJtq_InAzVmkGm94KQxDXolZMPckGQZruN_HOlvJH5tH1SWA%3D%3D?uid=0&filename=2.PNG&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=1920x935" width="300" /></p>
+    html: `<p style="text-align: center;"><img alt="Mars" src="https://downloader.disk.yandex.ru/preview/300d3465fef37352875cdc882915e9058a1fa17007449acfee41d878f28f612b/681a4fda/UqB5QTAuJ9ubx_mtG2gT3ca_WbHkUOyKRhY7D4NJtq_InAzVmkGm94KQxDXolZMPckGQZruN_HOlvJH5tH1SWA%3D%3D?uid=0&filename=2.PNG&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v3&size=1920x935" width="300" /></p>
 <p style="text-align: center;"><strong>${userName}, поздравляю!</strong></p>
 <p style="text-align: center;"><strong>Ты настоящий знаток космонавтики! </strong></p>
-<p style="text-align: center;">Ты ответил на все вопросы маршрута &laquo;${topicName}&raquo; и набрал ${stars} баллов.&nbsp;</p>
+<p style="text-align: center;">Ты ответил на все вопросы темы &laquo;${topicName}&raquo; и набрал ${stars} баллов.&nbsp;</p>
 <p style="text-align: center;">За это я хочу подарить тебе <strong>уникальные фотографии Героя РФ, лётчика-космонавта Артемьева Олега Германовича.</strong> Ты можешь их использовать как заставки рабочего стола или распечатать и повесить на стену!</p>
 <p style="text-align: center;">Давай пройдем следующую тему вместе?!</p>
 <p style="text-align: center;"><strong>Твой Марс!</strong></p>
@@ -120,5 +146,29 @@ export async function sendCompletionEmail(userEmail: string, topicName: string, 
     console.log(`Email отправлен на ${userEmail}`);
   } catch (error) {
     console.error('Ошибка при отправке email:', error);
+  }
+}
+
+const topics: Record<string, string> = {
+    'Техника и космос': 'spacetech',
+    'Культура': 'culture',
+    'Жизнь замечательных людей': 'peoplelife',
+    'Самарские предприятия, проложившие путь в космос': 'samaraindustry'
+  };
+
+export async function sendCompletionEmail(userEmail: string, topicName: string, userName: string, stars: number): Promise<void> {
+  const topic = topics[topicName];
+  console.log(topic);
+  try {
+    const response = await axios.post('http://odysseymars.com/api/v0/sendemail?key=ZfMtsgkd$2RpkWWx', {
+      email: userEmail,
+      name: userName,
+      topic: topic,
+      prize: 'topic',
+      score: stars
+    });
+    console.log('Ответ от внешнего API:', response.data);
+  } catch (error) {
+    console.error('Ошибка при отправке запроса:', error);
   }
 }

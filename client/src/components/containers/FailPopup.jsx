@@ -107,7 +107,7 @@ export default function FailPopup({videoAnswer, endTopic, isTopicPrizeLoading, s
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
             <div className="relative pt-10 pb-6 border-4 shadow-lg border-lightBlue bg-bgProfile rounded-[20px] mt-24 md:px-6 mx-4 md:mx-0 md:pt-16">
-                <img src="/4.PNG" alt="" className="absolute scale-110 -right-2 top-0 md:-right-2 md:top-0 md:translate-y-[-55%] translate-y-[-57%]" width={"600px"}/>
+                <img src="/4.PNG" alt="" className="absolute scale-110 -right-2 top-0 md:-right-2 md:top-0 md:translate-y-[-57%] translate-y-[-58%]" width={"600px"}/>
                 <button
                 onClick={() => {
                     if(isLast){

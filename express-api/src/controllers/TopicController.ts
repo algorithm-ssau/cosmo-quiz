@@ -43,6 +43,7 @@ class TopicController {
           author: question.author,
           name: question.name,
           question: question.question,
+          photo: question.photo,
           answerVideo: question.answerVideo,
           questionVideo: question.questionVideo,
         }))

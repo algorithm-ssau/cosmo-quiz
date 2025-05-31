@@ -7,6 +7,7 @@ type TQuestion = {
   author: Types.ObjectId;
   question: string;
   answer: string;
+  photo?: string;
   questionVideo?: string;
   answerVideo?: string;
 };

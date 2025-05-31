@@ -68,21 +68,43 @@ class GameService {
     if (!chars) {
       return null;
     }
+    const targetChars = ['.', '-', ' '];
+    const specChars: { place: number, char: string }[][] = words.map(word => {
+      const specials: { place: number, char: string }[] = [];
+      for (let i = 0; i < word.length; i++) {
+        const char = word[i];
+        if (targetChars.includes(char)) {
+          specials.push({ place: i, char });
+        }
+      }
+      return specials;
+    });
 
     const res: TGetGameData = {
       wordsLengths: words.map(word => word.length),
       chars: chars.map((char, index) => {
-        return {
+        if(char === '.' || char === '-' || char === ' '){
+          return {
           id: index,
           char: char,
           selected: false,
+          spec: true,
         };
+        }else{
+          return {
+          id: index,
+          char: char,
+          selected: false,
+          spec: false,
+        };
+        }
       }),
       rightChars: words.map(word => word.length >= 10 ? 
         word.slice(0,2).toUpperCase().concat(word.slice(-2).toUpperCase()):
         word.length >= 6 ? word[0].concat(word[word.length-1].toUpperCase()) : ''),
       countClue: words.some(word=> word.length>=10) ? 2 : 
-        words.some(word=> word.length>=6) ? 1 : 0
+        words.some(word=> word.length>=6) ? 1 : 0,
+      specChars: specChars
       /*rightChars: words.map(word => word[0].toUpperCase().concat(word[word.length-1].toUpperCase()))*/
     };
 

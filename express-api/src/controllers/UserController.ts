@@ -96,6 +96,7 @@ class UserController {
       if (!user || !topics) {
         throw ApiError.Unauthorized();
       }
+      await sendNewUserEmail(user.email, user.name);
       const topicLengths = topics.map(topic => ({length:topic.questions.length, name: topic.name}));
       const progressCounts = user.topic_progress.map(progress => progress.count);
       const topicStars = user.question_stars.map(topic => topic.stars.reduce((acc, question) => acc + question.count, 0));
@@ -150,16 +151,16 @@ class UserController {
         (acc, topic) => acc + topic.stars.reduce((acc, question) => acc + question.count, 0),
         0
       );
-      if(stars >= 3 && user.countStarPrizes == 0){
+      if(stars >= 30 && user.countStarPrizes == 0){
         await sendStarsEmail(user.email, user.name, 30);
         await UserService.recivePrize(payload.id);
-      } else if(stars >= 6 && user.countStarPrizes == 1){
+      } else if(stars >= 60 && user.countStarPrizes == 1){
         await sendStarsEmail(user.email, user.name, 60);
         await UserService.recivePrize(payload.id);
-      } else if(stars >= 9 && user.countStarPrizes == 2){
+      } else if(stars >= 90 && user.countStarPrizes == 2){
         await sendStarsEmail(user.email, user.name, 90);
         await UserService.recivePrize(payload.id);
-      } else if(stars >= 12 && user.countStarPrizes == 3){
+      } else if(stars >= 120 && user.countStarPrizes == 3){
         await UserService.recivePrize(payload.id);
       }
       res.status(200).json({ message: 'Письмо отправлено успешно' });

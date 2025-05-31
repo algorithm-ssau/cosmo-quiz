@@ -15,7 +15,7 @@ class AuthController {
       }
       const user = await UserService.register(name, email, password);
       if (!user) {
-        throw ApiError.BadRequest('Этот email уже зарегестрирован');
+        throw ApiError.BadRequest('Этот email уже зарегистрирован');
       }
 
       const accessToken = TokenService.generateAccessToken({ id: user._id });

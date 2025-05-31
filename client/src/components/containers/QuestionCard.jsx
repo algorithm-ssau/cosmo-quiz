@@ -28,38 +28,15 @@ export default function QuestionCard({
         >
           {/* Лицевая сторона */}
           <div className="absolute grid items-stretch w-full md:h-48 grid-cols-5 rounded-[20px] backface-hidden bg-gradient-to-b from-lightBlue to-darkBlue h-40">
-            <div className='col-span-4 mt-5 ml-5 '>
+            <div className='col-span-4 mt-5 ml-3 md:ml-5'>
               <div className='flex'>
-                {starsCount === 0 && (
                   <div className='flex'>
-                    <IoStar className='place-self-center text-darkBlue size-[25px] md:size-[30px]'  />
-                    <IoStar className='place-self-center text-darkBlue size-[25px] md:size-[30px]'  />
-                    <IoStar className='place-self-center text-darkBlue size-[25px] md:size-[30px]'  />
+                    <IoStar className={`place-self-center ${starsCount>0 ? 'text-gold' : 'text-darkBlue'} size-[25px] md:size-[30px]`} />
+                    <IoStar className={`place-self-center ${starsCount>1 ? 'text-gold' : 'text-darkBlue'} size-[25px] md:size-[30px]`} />
+                    <IoStar className={`place-self-center ${starsCount>2 ? 'text-gold' : 'text-darkBlue'} size-[25px] md:size-[30px]`}/>
                   </div>
-                )}
-                {starsCount === 1 && (
-                  <div className='flex'>
-                    <IoStar className='place-self-center text-gold size-[25px] md:size-[30px]'  />
-                    <IoStar className='place-self-center text-darkBlue size-[25px] md:size-[30px]'  />
-                    <IoStar className='place-self-center text-darkBlue size-[25px] md:size-[30px]'  />
-                  </div>
-                )}
-                {starsCount === 2 && (
-                  <div className='flex'>
-                    <IoStar className='place-self-center text-gold size-[25px] md:size-[30px]' />
-                    <IoStar className='place-self-center text-gold size-[25px] md:size-[30px]'  />
-                    <IoStar className='place-self-center text-darkBlue size-[25px] md:size-[30px]'  />
-                  </div>
-                )}
-                {starsCount === 3 && (
-                  <div className='flex'>
-                    <IoStar className='place-self-center text-gold' size={'30px'} />
-                    <IoStar className='place-self-center text-gold' size={'30px'} />
-                    <IoStar className='place-self-center text-gold' size={'30px'} />
-                  </div>
-                )}
-                {isDone && <IoIosCheckmarkCircle className='ml-2 text-white size-[25px] md:size-[30px]' />}
-              </div>
+                  {isDone && <IoIosCheckmarkCircle className='ml-2 text-white size-[25px] md:size-[30px]' />}
+                </div>
               <h1 className='mt-2 mb-2 text-xl leading-none text-white md:leading-tight md:text-2xl '>{title}</h1>
               <p className='text-sm text-grey md:text-lg'>{(() => {
                 const parts = author.split(" ");
@@ -136,7 +113,7 @@ export default function QuestionCard({
             </p>
           </div>
           <div className=''>
-            <p className='mt-2 mr-4 text-4xl text-white opacity-50 text-end md:text-5xl'>{number}</p>
+            <p className='mt-3 mr-4 text-3xl text-right text-white opacity-50 md:text-5xl'>{number}</p>
           </div>
         </div>
         <IoLockClosed

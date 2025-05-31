@@ -51,6 +51,30 @@ export default function About() {
             <p className="text-base leading-tight">Вопрос о гладиолусах <br />Вопрос о подушке</p> 
           </div>
           <div className=" bg-white w-[85%] md:w-[600px] my-5 rounded h-[1px]" />
+          <h2 className="mb-6 text-2xl">РАЗРАБОТЧИКИ</h2>
+          <div className="text-xl">
+            <p>Жданова Александра</p>
+            <p className="mb-4 text-base">Project-менеджер</p> 
+            <p>Жданов Иван</p>
+            <p className="mb-4 text-base">Технический эксперт</p> 
+            <p>Сопченко Елена</p>
+            <p className="mb-4 text-base">Технический эксперт</p> 
+            <p>Голов Максим</p>
+            <p className="mb-4 text-base">iOS-разработчик</p> 
+            <p>Шмойлов Евгений</p>
+            <p className="mb-4 text-base">Fullstack-разработчик</p> 
+            <p>Атякшев Степан</p>
+            <p className="text-base">Fullstack-разработчик</p> 
+          </div>
+          <div className=" bg-white w-[85%] md:w-[600px] my-5 rounded h-[1px]" />
+          <h2 className="mb-6 text-2xl">ДИЗАЙН</h2>
+          <div className="text-xl">
+            <p>Азаматов Ильдар</p>
+            <p className="mb-4 text-base">Frontend-разработчик</p>
+            <p>Петрова Анастасия</p>
+            <p className="text-base">Frontend-разработчик</p> 
+          </div>
+          <div className=" bg-white w-[85%] md:w-[600px] my-5 rounded h-[1px]" />
           <h2 className="mb-6 text-2xl">ОБРАБОТКА ВИДЕО</h2>
           <div className="text-xl">
             <p>Хабибуллин Роман Маратович</p>

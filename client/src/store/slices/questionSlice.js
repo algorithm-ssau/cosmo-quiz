@@ -21,7 +21,7 @@ export const questionSlice = createAppSlice({
     fetchData: create.asyncThunk(async (payload, config) => {
       const data = await (await GameService.getGameData(payload.question_id)).data
       config.dispatch(setRightChars({rightChars: data.rightChars}));
-      config.dispatch(setWords({ wordsLengths: data.wordsLengths }));
+      config.dispatch(setWords({ wordsLengths: data.wordsLengths, specChars: data.specChars }));
       config.dispatch(
         setChars(data.chars)
       );
@@ -45,26 +45,38 @@ export const questionSlice = createAppSlice({
 
     setWords: create.reducer((state, action) => {
       const wordsLengths = action.payload.wordsLengths;
-      state.wordsLengths = wordsLengths;
-      const chars = [];
-      for (
-        let i = 0;
-        i <
-        wordsLengths.reduce((acc, value) => {
-          return acc + value;
-        });
-        i++
-      ) {
-        chars.push({ id: 0, char: '', right: false });
-      }
+        const specChars = action.payload.specChars; // <-- передаётся из action
 
-      const words = [];
-      wordsLengths.forEach(length => {
-        const word = chars.splice(0, length);
-        words.push(word);
-      });
-      state.words = words;
-    }),
+        state.wordsLengths = wordsLengths;
+
+        const totalLength = wordsLengths.reduce((acc, value) => acc + value, 0);
+        const chars = [];
+
+        for (let i = 0; i < totalLength; i++) {
+          chars.push({ id: 0, char: '', right: false, spec: false });
+        }
+
+        // Формируем words, как обычно
+        const words = [];
+        wordsLengths.forEach(length => {
+          const word = chars.splice(0, length);
+          words.push(word);
+        });
+
+        // Теперь вставляем спецсимволы в указанные позиции
+        for (let wordIndex = 0; wordIndex < specChars.length; wordIndex++) {
+          const specials = specChars[wordIndex];
+          for (const { place, char } of specials) {
+            if (words[wordIndex] && words[wordIndex][place]) {
+              words[wordIndex][place].char = char;
+              words[wordIndex][place].spec = true;
+            }
+          }
+        }
+
+        state.words = words;
+      }),
+   
 
     setChars: create.reducer((state, action) => {
       const chars = [];
@@ -73,6 +85,7 @@ export const questionSlice = createAppSlice({
           id: value.id,
           char: value.char,
           selected: value.selected,
+          spec: value.spec,
         });
       });
       state.chars = chars;
@@ -301,7 +314,9 @@ export const questionSlice = createAppSlice({
         i++
       ) {
         if(insertedChars[i].right){
-          chars.push({id: insertedChars[i].id, char: insertedChars[i].char, right: true})
+          chars.push({id: insertedChars[i].id, char: insertedChars[i].char, right: true, spec:false})
+        }else if(insertedChars[i].spec){
+          chars.push({id: insertedChars[i].id, char: insertedChars[i].char, right: false, spec:true})
         }
         else{
           chars.push({ id: 0, char: '', right: false });
@@ -395,12 +410,15 @@ export const questionSlice = createAppSlice({
         for(let j = 0; j < state.words[i].length; j++){
           state.words[i][j].char = answer[i][j];
           state.words[i][j].right = true;
+          if(answer[i][j] === '.' || answer[i][j] === '-' || answer[i][j] === ' '){
+            state.words[i][j].spec = true;
+          }
         }
       }
     }),
   }),
 });
 
-export const {getAnswer, setAnswer, setIsFailAnswer, failAnswer, setStars, removeStar, hint, setWords, setChars, selectChar, unselectChar, fetchData, clear, setIsDone, setIsRightAnswer, answer, fillRightChar, setRightChars, setCountClue, clearWords, clearChars, setThereClue } = questionSlice.actions;
+export const {setSpecChars, getAnswer, setAnswer, setIsFailAnswer, failAnswer, setStars, removeStar, hint, setWords, setChars, selectChar, unselectChar, fetchData, clear, setIsDone, setIsRightAnswer, answer, fillRightChar, setRightChars, setCountClue, clearWords, clearChars, setThereClue } = questionSlice.actions;
 
 export default questionSlice.reducer;

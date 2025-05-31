@@ -5,7 +5,6 @@ import CharButton from '../ui/CharButton';
 export default function CharList() {
   const dispatch = useDispatch();
   const chars = useSelector(state => state.question.chars);
-
   return (
     <>
       <div className='flex flex-wrap justify-center gap-2'>

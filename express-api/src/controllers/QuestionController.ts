@@ -31,6 +31,7 @@ class QuestionController {
           },
           name: question.name,
           question: question.question,
+          photo: question.photo,
           answerVideo: question.answerVideo,
           questionVideo: question.questionVideo,
         });

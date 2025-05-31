@@ -64,7 +64,7 @@ export default function Heroes() {
                 </h1>
               );
             })()}
-            <img src={`${author.avatar}`} alt="" width={"200px"} />
+            <img src={`${author.name == "Жданова Александра Николаевна" ? "/Даниленко.png" : author.avatar}`} alt="" width={"200px"} />
             <p className="mt-4 font-medium text-center">
               {author.desc
                 .split(/(?<=, )(?=[А-ЯA-Z0-9])/)

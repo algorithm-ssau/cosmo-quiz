@@ -52,7 +52,7 @@ export default function SuccesPopup({videoAnswer, stars, isLast, sendTopicPrize,
             navigate(-1); 
         }
     }
-    if (!isOpen) return null; // Если окно закрыто, ничего не рендерим
+    if (!isOpen) return null; 
     if(isVideo)return(
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center pb-10 bg-black bg-opacity-95">
             <h1 className='pb-12 text-2xl font-bold text-white md:text-4xl'>Видео-ответ</h1>

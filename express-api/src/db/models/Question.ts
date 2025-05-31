@@ -22,6 +22,7 @@ export const QuestionSchema = new Schema<TQuestion, Model<TQuestion>>({
     type: String,
     required: true,
   },
+  photo: String,
   questionVideo: String,
   answerVideo: String,
 });

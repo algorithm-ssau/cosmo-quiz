@@ -56,6 +56,9 @@ export default function LoginWindow() {
     }else if(val.length<4){
       setPasswordDirty(true)
       setPasswordError('Введите не менее 4 знаков');
+    }else if(val.length>30){
+      setPasswordDirty(true)
+      setPasswordError('Максимум 30 знаков');
     }else {
       setPasswordDirty(false)
       setPasswordError('');
@@ -69,6 +72,9 @@ export default function LoginWindow() {
     }else if(val.length<2){
       setUserNameDirty(true)
       setUserNameError('Введите не менее 2 знаков');
+    }else if(val.length>30){
+      setUserNameDirty(true)
+      setUserNameError('Максимум 30 знаков');
     } else {
       setUserNameDirty(false)
       setUserNameError('');
@@ -251,6 +257,7 @@ export default function LoginWindow() {
                 setEmailDirty(true)
                 setPasswordDirty(true)
                 setContent(true);
+                dispatch(clearError());
               }}
             >
               Войти

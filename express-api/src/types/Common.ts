@@ -40,8 +40,9 @@ export type TSendPrizeBody = {
 };
 
 export type TGetGameData = {
-  wordsLengths: number[],
-  chars: { id: number, char: string, selected: boolean }[],
-  rightChars: string[]
-  countClue: number
+  wordsLengths: number[];
+  chars: { id: number, char: string, selected: boolean, spec: boolean }[];
+  specChars: { place: number, char: string}[][];
+  rightChars: string[];
+  countClue: number;
 }

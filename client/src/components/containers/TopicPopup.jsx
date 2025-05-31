@@ -1,14 +1,11 @@
 import { useNavigate, useParams } from 'react-router';
 import { useState } from "react";
-import { RxCross2 } from "react-icons/rx";
 import { IoStar } from 'react-icons/io5';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-export default function TopicPopup({videoAnswer, stars, isLast, sendPrize, endTopic, isTopicLoading}) {
+export default function TopicPopup({ stars, isTopicLoading}) {
     const navigate = useNavigate();
-    const [isVideo, setIsVideo] = useState(false);
-    const [isEndTopic, setIsEndTopic] = useState(false);
-    const [isOpen, setIsOpen] = useState(true); // Управляем показом окна
+    const [isOpen, setIsOpen] = useState(true); 
     const user = useSelector(state => state.auth.user);
     const topic_id = useParams().id;
     const topicStars = user.question_stars
@@ -16,7 +13,7 @@ export default function TopicPopup({videoAnswer, stars, isLast, sendPrize, endTo
       .stars.reduce((acc, question) => acc + question.count, 0) + stars;
     const allTopicStars = user.question_stars
       ?.find(topic => topic.topic_id == topic_id).stars.length*3;
-    if (!isOpen) return null; // Если окно закрыто, ничего не рендерим
+    if (!isOpen) return null;
     if(isTopicLoading){ 
         
         return(

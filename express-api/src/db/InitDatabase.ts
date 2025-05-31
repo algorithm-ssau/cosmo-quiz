@@ -490,7 +490,7 @@ export default async function initDatabase() {
     name: "Космическая «нетленка»",
     question: "Однажды осенью 1960 года срочно потребовалась песня о завоевании космического пространства великим советским народом — позже выяснилось, что задание о песне было спущено с самого верха, от советского правительства. сотрудник Всесоюзного радио Владимир Войнович, набравшись храбрости, предложил в качестве поэта себя. На другое утро он показал комиссии свои стихи. Музыка О.Фельцмана была готова уже через несколько часов, а Владимир Трошин стал первым исполнителем. Назовите название этой песни на слова Войновича, планы озвученные в которой спустя почти 60 лет так и остаются пока мечтой.",
     answer: "14 минут до старта.", 
-    words: ["14", "Минут", "До", "Старта"],
+    words: ["14 минут", "До старта"],
     questionVideo:"https://rutube.ru/play/embed/e4019448e2d8aa54805b76e86a15a680/?p=LtZ0-Z_eqlJUWekoN82-hw",
     answerVideo:"",
   });
@@ -605,7 +605,7 @@ export default async function initDatabase() {
     name: "Океан вселенной",
     question: "Отбытие экипажа на старт всегда сопровождает песня сверхпопулярной некогда группы «Земляне». Вспомните название этой песни",
     answer: "Трава у дома", 
-    words: ["Трава","у", "Дома"],
+    words: ["Трава","У дома"],
     questionVideo:"https://rutube.ru/play/embed/07af8841a7b66095387d613473c14b07/?p=Y68xyOiX6VtthrS5zrEW4g",
     answerVideo:"https://rutube.ru/play/embed/2bf4f00beae09c3102a2a368a77ec364/?p=rUUYNXemmhkfIG165hy7vw",
   });
@@ -632,6 +632,19 @@ export default async function initDatabase() {
     name: "Жизнь замечательных людей",
     questions: [],
   });
+
+  question = new Question({
+    author: Artemiev._id,
+    name: "Первопроходец",
+    question: "12 апреля 1961 года первый космонавт Ю.А. Гагарин приземлился на поле колхоза имени Шевченко, близь деревни Смеловка в 27 километрах южнее города Энгельса. После посадки подобравшего его вертолета удивленный председатель колхоза вручил ему награду. Как называется первая медаль, которой был награжден Юрий Алексеевич после полета?",
+    answer: "Медаль «За освоение целинных земель». Ей награждаются колхозники, работники совхозов, строительных и других организаций, партийные, советские, профсоюзные и комсомольские работники за хорошую работу на освоении целинных и залежных земель в районах Казахстана, Сибири, Урала, Поволжья и Северного Кавказа.\n" +
+        "После случая с Гагариным награждение этой медалью стало традицией, она вручалась на месте посадки и многим другим космонавтам.\n",
+    words: ["За освоение", "Целинных", "Земель"],
+    questionVideo:"https://rutube.ru/play/embed/be6007a4915a85e3df0c73efd48c040f/?p=KQ-ne0WSAKNMt7PA1zsFww",
+    answerVideo:"https://rutube.ru/play/embed/b468ba4905f53a57b9acaf520ee47434/?p=H36PGA7x_DI-T3ukgHxVEA",
+  });
+  await question.save();
+  topic.questions.push(question._id);
 
   question = new Question({
     author: Zhdanova._id,
@@ -749,7 +762,7 @@ export default async function initDatabase() {
     question: "12 апреля 1961 года первый космонавт Ю.А. Гагарин приземлился на поле колхоза имени Шевченко, близь деревни Смеловка в 27 километрах южнее города Энгельса. После посадки подобравшего его вертолета удивленный председатель колхоза вручил ему награду. Как называется первая медаль, которой был награжден Юрий Алексеевич после полета?",
     answer: "Медаль «За освоение целинных земель». Ей награждаются колхозники, работники совхозов, строительных и других организаций, партийные, советские, профсоюзные и комсомольские работники за хорошую работу на освоении целинных и залежных земель в районах Казахстана, Сибири, Урала, Поволжья и Северного Кавказа.\n" +
         "После случая с Гагариным награждение этой медалью стало традицией, она вручалась на месте посадки и многим другим космонавтам.\n",
-    words: ["За", "освоение", "целинных", "земель"],
+    words: ["За освоение", "Целинных", "Земель"],
     questionVideo:"https://rutube.ru/play/embed/be6007a4915a85e3df0c73efd48c040f/?p=KQ-ne0WSAKNMt7PA1zsFww",
     answerVideo:"https://rutube.ru/play/embed/b468ba4905f53a57b9acaf520ee47434/?p=H36PGA7x_DI-T3ukgHxVEA",
   });
@@ -801,6 +814,7 @@ export default async function initDatabase() {
     name: "Самарские предприятия, проложившие путь в космос",
     questions: [],
   });
+
 
   question = new Question({
     author: Kotov._id,
@@ -875,6 +889,18 @@ export default async function initDatabase() {
   topic.questions.push(question._id);
 
   question = new Question({
+    author: Koroleva._id,
+    name: "Разведка",
+    question: "Когда и каким космическим аппаратом была сфотографирована обратная сторона Луны?",
+    answer: "Обратная сторона Луны была сфотографирована 4 октября 1959 года аппаратом Луна-3",
+    words: ["04.10.1959", "Луна-3"],
+    questionVideo:"https://rutube.ru/play/embed/09ca8fa4c860094ce095bcb52d79850d/?p=2DI-7ZtBW7kNbVKk8_ny9Q",
+    answerVideo:"https://rutube.ru/play/embed/20b585dd4cdb1dca39cc93032d8c6457/?p=vORNZ_B3YtVm36SPT-kG-A",
+  });
+  await question.save();
+  topic.questions.push(question._id);
+
+  question = new Question({
     author: Titov._id,
     name: "Счёт на секунды",
     question: "Назовите фамилию руководителя стартовой команды корабля «Союз-Т-10-1» – Героя Социалистического Труда, заместителя генерального конструктора «ЦСКБ-Прогресс»",
@@ -900,17 +926,7 @@ export default async function initDatabase() {
   await question.save();
   topic.questions.push(question._id);
 
-  question = new Question({
-    author: Koroleva._id,
-    name: "Разведка",
-    question: "Когда и каким космическим аппаратом была сфотографирована обратная сторона Луны?",
-    answer: "Обратная сторона Луны была сфотографирована 4 октября 1959 года аппаратом Луна-3",
-    words: ["04.10.1959", "Луна-3"],
-    questionVideo:"https://rutube.ru/play/embed/09ca8fa4c860094ce095bcb52d79850d/?p=2DI-7ZtBW7kNbVKk8_ny9Q",
-    answerVideo:"https://rutube.ru/play/embed/20b585dd4cdb1dca39cc93032d8c6457/?p=vORNZ_B3YtVm36SPT-kG-A",
-  });
-  await question.save();
-  topic.questions.push(question._id);
+  
 
   question = new Question({
     author: Lazutkin._id,
@@ -960,6 +976,19 @@ export default async function initDatabase() {
     words: ["Велосипед"],
     questionVideo:"https://rutube.ru/play/embed/9b8bb46cc2a2a2e5b14918886dedc569/?p=flgRhHwU-6kGElWuEALssw",
     answerVideo:"https://rutube.ru/play/embed/1658a37049568e86acbaf341cc49988f/?p=y12b8SqepBK2H0w5FVLDlQ",
+  });
+  await question.save();
+  topic.questions.push(question._id);
+
+  question = new Question({
+    author: Korzun._id,
+    name: "Перед стартом",
+    question: "Посмотрите внимательно на ракету. Так она выглядит за 2,5 часа до старта. Назовите настоящий цвет ракеты «Союз» до того, как ракета становится белой.",
+    answer: "Серый",
+    words: ["Серый"],
+    photo: "/rocket.jpg",
+    questionVideo:"https://rutube.ru/play/embed/c37d7520a34f61318a8683e7d6ad445c/?p=lw8qgyGcjJJMO4GZja-T0A",
+    answerVideo:"https://rutube.ru/play/embed/db6c7369ef30193de97653549bf48ecc/?p=QPtk6dwnfVHze6Nce8Cj5g",
   });
   await question.save();
   topic.questions.push(question._id);
