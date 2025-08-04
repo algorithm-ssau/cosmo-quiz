@@ -5,7 +5,7 @@ import fs from 'fs';
 import path from 'path';
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
+/*const transporter = nodemailer.createTransport({
   host: "smtp.yandex.com",
   port: 465,
   secure: true,
@@ -13,9 +13,9 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL as string,
     pass: process.env.EMAIL_PASS as string,
   },
-});
+});*/
 
-export async function sendNewUserEmail1(userEmail: string, userName: string): Promise<void> {
+export async function sendNewUserEmail(userEmail: string, userName: string): Promise<void> {
   try {
     const response = await axios.post('http://odysseymars.com/api/v0/sendemail?key=ZfMtsgkd$2RpkWWx', {
       email: userEmail,
@@ -29,7 +29,7 @@ export async function sendNewUserEmail1(userEmail: string, userName: string): Pr
   }
 };
 
-export async function sendNewUserEmail(userEmail: string, userName: string): Promise<void> {
+/*export async function sendNewUserEmail1(userEmail: string, userName: string): Promise<void> {
   const mailOptions = {
     from: process.env.EMAIL,
     to: userEmail,
@@ -51,7 +51,7 @@ export async function sendNewUserEmail(userEmail: string, userName: string): Pro
   } catch (error) {
     console.error('Ошибка при отправке email:', error);
   }
-}
+}*/
 
 const starsAttachments: Record<number , string> = {
   30: './prizes/tsiolkovsky.jpg',
@@ -60,7 +60,7 @@ const starsAttachments: Record<number , string> = {
   120: './prizes/shuttle.jpg'
 };
 
-export async function sendStarsEmail(userEmail: string, userName: string, stars: number): Promise<void> {
+/*export async function sendStarsEmail(userEmail: string, userName: string, stars: number): Promise<void> {
   const prizePath = starsAttachments[stars];
   const attachments = fs.existsSync(prizePath)
   ? [{
@@ -91,9 +91,9 @@ export async function sendStarsEmail(userEmail: string, userName: string, stars:
   } catch (error) {
     console.error('Ошибка при отправке email:', error);
   }
-}
+}*/
 
-export async function sendStarsEmail1(userEmail: string, userName: string, stars: number): Promise<void> {
+export async function sendStarsEmail(userEmail: string, userName: string, stars: number): Promise<void> {
   try {
     const response = await axios.post('http://odysseymars.com/api/v0/sendemail?key=ZfMtsgkd$2RpkWWx', {
       email: userEmail,
@@ -115,7 +115,7 @@ const topicAttachments: Record<string, string[]> = {
     'Самарские предприятия, проложившие путь в космос': ['./prizes/moon.jpg', './prizes/sunrise.jpg']
   };
 
-export async function sendCompletionEmail1(userEmail: string, topicName: string, userName: string, stars: number): Promise<void> {
+/*export async function sendCompletionEmail1(userEmail: string, topicName: string, userName: string, stars: number): Promise<void> {
     const prizePaths = topicAttachments[topicName];
     const imageUrl = "http://localhost:5001/prizes/2.PNG";
     const attachments = prizePaths
@@ -147,13 +147,13 @@ export async function sendCompletionEmail1(userEmail: string, topicName: string,
   } catch (error) {
     console.error('Ошибка при отправке email:', error);
   }
-}
+}*/
 
 const topics: Record<string, string> = {
     'Техника и космос': 'spacetech',
-    'Культура': 'culture',
+    'Культура': 'spaceculture',
     'Жизнь замечательных людей': 'peoplelife',
-    'Самарские предприятия, проложившие путь в космос': 'samaraindustry'
+    'Самарские предприятия, проложившие путь в космос': 'spaceindustry'
   };
 
 export async function sendCompletionEmail(userEmail: string, topicName: string, userName: string, stars: number): Promise<void> {
